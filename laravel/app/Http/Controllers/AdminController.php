@@ -201,13 +201,13 @@ class AdminController extends Controller
     }
     function listScheduleSong(){
 
-        $data = DB::table('scheduleSong')
-        ->join('song_master', 'scheduleSong.song_id', '=', 'song_master.id')
-        // ->where('scheduleSong.song_id', '=', $request->language)
+        $data = DB::table('schedule_song')
+        ->join('song_master', 'schedule_song.song_id', '=', 'song_master.id')
+        // ->where('schedule_song.song_id', '=', $request->language)
         // ->whereIn('song_mapping.song_category_id', $request->category)
-        ->select('scheduleSong.id as sid', 'song_master.*')
+        ->select('schedule_song.id as sid', 'song_master.*')
         ->groupBy('song_master.id')
-        ->orderBy('scheduleSong.id')
+        ->orderBy('schedule_song.id')
         ->get()->toArray();
         return View('listScheduleSongs')->with('data',$data);;
     }
