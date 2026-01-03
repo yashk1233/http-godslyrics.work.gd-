@@ -1,0 +1,4 @@
+laravel/vendor/
+laravel/storage/*
+laravel/.env
+node_modules/
