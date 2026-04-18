@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/',[App\Http\Controllers\AdminController::class,'ViewSongs']);
+Route::get('/',[App\Http\Controllers\AdminController::class,'index']);
 Route::get('admin',[App\Http\Controllers\AdminController::class,'admin']);
 Route::get('/create-new-song',[App\Http\Controllers\AdminController::class,'createNewSong']);
 Route::get('/view-songs',[App\Http\Controllers\AdminController::class,'ViewSongs']);
