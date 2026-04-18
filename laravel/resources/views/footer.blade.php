@@ -2,6 +2,20 @@
 <footer class="main-footer d-none">
 </footer>
 
+<!-- iOS Style Confirm Modal -->
+<div id="ios-confirm-modal" class="ios-modal-overlay" style="display: none;">
+    <div class="ios-modal">
+        <div class="ios-modal-header" style="padding-bottom: 15px;">
+            <h4>Restricted Action</h4>
+            <p>This action is restricted. Are you sure you want to proceed?</p>
+        </div>
+        <div class="ios-modal-footer">
+            <button type="button" class="ios-modal-btn" id="ios-confirm-cancel">Cancel</button>
+            <button type="button" class="ios-modal-btn ios-modal-btn-confirm" id="ios-confirm-proceed" style="color: #ff3b30;">Proceed</button>
+        </div>
+    </div>
+</div>
+
 <!-- iOS Style PIN Modal -->
 <div id="ios-pin-modal" class="ios-modal-overlay" style="display: none;">
     <div class="ios-modal">
@@ -49,13 +63,32 @@
 
     window.requirePin = function(actionCallback) {
         globalPinAction = actionCallback;
-        $('#ios-pin-input').val('').removeClass('error');
-        $('#ios-pin-modal').show();
+        $('#ios-confirm-modal').show();
         setTimeout(() => {
-            $('#ios-pin-modal').addClass('show');
-            $('#ios-pin-input').focus();
+            $('#ios-confirm-modal').addClass('show');
         }, 10);
     }
+
+    $('#ios-confirm-cancel').on('click', function() {
+        $('#ios-confirm-modal').removeClass('show');
+        setTimeout(() => {
+            $('#ios-confirm-modal').hide();
+        }, 200);
+    });
+
+    $('#ios-confirm-proceed').on('click', function() {
+        $('#ios-confirm-modal').removeClass('show');
+        setTimeout(() => {
+            $('#ios-confirm-modal').hide();
+            // Now show PIN modal
+            $('#ios-pin-input').val('').removeClass('error');
+            $('#ios-pin-modal').show();
+            setTimeout(() => {
+                $('#ios-pin-modal').addClass('show');
+                $('#ios-pin-input').focus();
+            }, 10);
+        }, 200);
+    });
 
     function hidePinModal() {
         $('#ios-pin-modal').removeClass('show');
