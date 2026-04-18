@@ -179,14 +179,14 @@
                     <i class="fas fa-chevron-down text-muted rotate-icon" style="margin-right: 10px; font-size: 0.8rem;"></i>
                 </div>
                 <div class="ios-card-actions-inline" style="display: flex; align-items: center; flex-shrink: 0;">
-                    <button data-songid=${val.id} data-all_songsid='${str}' class="presentSongBtn" title="Present" style="width:36px; height:36px; border-radius:50%; border:none; background:#007aff; color:#fff; display:flex; align-items:center; justify-content:center; box-shadow: 0 4px 10px rgba(0,122,255,0.3); margin-right: 12px; cursor: pointer;">
-                        <i class="fas fa-play" style="font-size: 0.85rem; margin-left: 3px;"></i>
-                    </button>
                     <div class="dropdown">
                         <button class="ios-more-btn dropdown-toggle" type="button" id="dropdownMenuButton${val.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow: none;">
                             <i class="fas fa-ellipsis-h"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right border-0" aria-labelledby="dropdownMenuButton${val.id}" style="border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.12); padding: 8px; margin-top: 8px;">
+                            <a class="dropdown-item presentSongBtn" href="#" data-songid="${val.id}" data-all_songsid="${str}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
+                                <i class="fas fa-external-link-alt text-primary mr-2" style="width: 20px;"></i> Present
+                            </a>
                             <a class="dropdown-item editSongBtn" href="#" data-songid="${val.id}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
                                 <i class="fas fa-edit text-info mr-2" style="width: 20px;"></i> Edit
                             </a>
