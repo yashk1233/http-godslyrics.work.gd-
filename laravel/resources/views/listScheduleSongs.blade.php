@@ -145,9 +145,7 @@
     };
     var songs_id = arrayColumn(data, 'id');
     var str = songs_id.join([songs_id = ',']);
-    console.log(str);
-
-    console.log(data);
+   
     tbody = ``;
     $.each(data, function (key, val) {
 
@@ -187,8 +185,8 @@
     $('.presentSongBtn').on('click', function () {
 
         var songid = $(this).data("songid");
-        var all_songsid = $(this).data("all_songsid");
-        var route = "{{ url('present-song') }}/" + songid+'/'+all_songsid;
+        // var all_songsid = $(this).data("all_songsid");
+        var route = "{{ url('present-song') }}/" + songid;
         window.open(route, '_blank');
 
     });
