@@ -160,12 +160,20 @@
                     <button data-songid=${val.id} data-all_songsid='${str}' class="ios-btn-small ios-btn-primary presentSongBtn" title="Present">
                         <i class="fas fa-play"></i>
                     </button>
-                    <button data-songid=${val.id} class="ios-btn-small ios-btn-info editSongBtn" title="Edit">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button data-id=${val.sid} class="ios-btn-small ios-btn-danger removeSongBtn" title="Remove">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
+                    <div class="dropdown">
+                        <button class="ios-btn-small bg-light text-dark" type="button" id="dropdownMenuButton${val.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow: none;">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right border-0" aria-labelledby="dropdownMenuButton${val.id}" style="border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 8px;">
+                            <a class="dropdown-item editSongBtn" href="#" data-songid="${val.id}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
+                                <i class="fas fa-edit text-info mr-2" style="width: 20px;"></i> Edit
+                            </a>
+                            <div class="dropdown-divider my-1"></div>
+                            <a class="dropdown-item removeSongBtn" href="#" data-id="${val.sid}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
+                                <i class="fas fa-trash-alt text-danger mr-2" style="width: 20px;"></i> Remove
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="ios-lyrics" style="display: none; margin-top: 16px; border-top: 1px solid #f2f2f7; padding-top: 16px;">`;
@@ -190,7 +198,8 @@
         window.open(route, '_blank');
 
     });
-    $('.removeSongBtn').on('click', function () {
+    $('.removeSongBtn').on('click', function (e) {
+        e.preventDefault();
         var id = $(this).data("id");
 
         $.ajax({
@@ -232,7 +241,8 @@
         }
     });
     
-    $('.editSongBtn').on('click', function () {
+    $('.editSongBtn').on('click', function (e) {
+        e.preventDefault();
         var songid = $(this).data("songid");
         var route = "{{ url('edit-song') }}/" + songid;
         window.open(route, '_self');

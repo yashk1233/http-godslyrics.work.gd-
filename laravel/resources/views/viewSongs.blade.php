@@ -93,7 +93,9 @@
     $(function () {
 
 
-        $('.select2').select2();
+        $('.select2').select2({
+            minimumResultsForSearch: Infinity
+        });
         $('#category').on('change', function () {
             $('#language').val('').trigger('change');
 
@@ -121,16 +123,22 @@
                             <div class="ios-card" style="padding: 16px;">
                                 <div class="ios-card-header" style="margin-bottom: 0;">
                                     <h5 class="ios-card-title text-truncate" style="flex:1; margin-right: 10px; min-width: 0;">${(key+1)+'. '+val.song_title}</h5>
-                                    <div class="ios-card-actions-inline">
-                                        <button data-songid=${val.id} data-all_songsid="${all_songsid}" type="button" class="ios-btn-small ios-btn-primary presentSongBtn" title="Present">
-                                            <i class="fas fa-play"></i>
+                                    <div class="dropdown">
+                                        <button class="ios-btn-small bg-light text-dark" type="button" id="dropdownMenuButton${val.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow: none;">
+                                            <i class="fas fa-ellipsis-v"></i>
                                         </button>
-                                        <button data-songid=${val.id} type="button" class="ios-btn-small ios-btn-success scheduleSongBtn" title="Schedule">
-                                            <i class="fas fa-clock"></i>
-                                        </button>
-                                        <button data-songid=${val.id} type="button" class="ios-btn-small ios-btn-info editSongBtn" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right border-0" aria-labelledby="dropdownMenuButton${val.id}" style="border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 8px;">
+                                            <a class="dropdown-item presentSongBtn" href="#" data-songid="${val.id}" data-all_songsid="${all_songsid}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
+                                                <i class="fas fa-play text-primary mr-2" style="width: 20px;"></i> Present
+                                            </a>
+                                            <a class="dropdown-item scheduleSongBtn" href="#" data-songid="${val.id}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
+                                                <i class="fas fa-clock text-warning mr-2" style="width: 20px;"></i> Schedule
+                                            </a>
+                                            <div class="dropdown-divider my-1"></div>
+                                            <a class="dropdown-item editSongBtn" href="#" data-songid="${val.id}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
+                                                <i class="fas fa-edit text-info mr-2" style="width: 20px;"></i> Edit
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>`;
@@ -138,19 +146,21 @@
                         });
                         $('#song_tbody').append(tbody);
                         $('#songlistcontent').show();
-                        $('.presentSongBtn').on('click', function () {
+                        $('.presentSongBtn').on('click', function (e) {
+                            e.preventDefault();
                             var songid = $(this).data("songid");
                             var all_songsid = $(this).data("all_songsid");
                             var route = "{{ url('present-song') }}/" + songid;
                             window.open(route, '_blank');
-    
                         });
-                        $('.editSongBtn').on('click', function () {
+                        $('.editSongBtn').on('click', function (e) {
+                            e.preventDefault();
                             var songid = $(this).data("songid");
                             var route = "{{ url('edit-song') }}/" + songid;
                             window.open(route, '_self');
                         });
-                        $('.scheduleSongBtn').on('click', function () {
+                        $('.scheduleSongBtn').on('click', function (e) {
+                            e.preventDefault();
                             var songid = $(this).data("songid");
                             console.log(songid);
                             $.ajax({
@@ -167,7 +177,6 @@
                                     console.log(xhr.responseText);
                                 }
                             });
-    
                         });
     
                         // do something with data returned
