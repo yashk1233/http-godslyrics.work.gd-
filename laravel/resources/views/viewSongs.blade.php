@@ -227,7 +227,7 @@
                                     </div>
                                     <div style="flex: 1; min-width: 0;">
                                         <h5 class="ios-row-title text-truncate">${val.song_title}</h5>
-                                        <p class="ios-row-subtitle">Song #${val.id}</p>
+                                        <p class="ios-row-subtitle">Song #${key+1}</p>
                                     </div>
                                 </div>
                                 <div class="dropdown" style="flex-shrink: 0; margin-left: 12px;">

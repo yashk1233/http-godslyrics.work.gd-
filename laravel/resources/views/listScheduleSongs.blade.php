@@ -176,7 +176,7 @@
                     </div>
                     <div style="flex: 1; min-width: 0; padding-right: 10px;">
                         <h5 class="ios-row-title text-truncate">${val.song_title}</h5>
-                        <p class="ios-row-subtitle">Song #${val.id}</p>
+                        <p class="ios-row-subtitle">Song #${key+1}</p>
                     </div>
                     <i class="fas fa-chevron-down text-muted rotate-icon" style="margin-right: 10px; font-size: 0.8rem;"></i>
                 </div>
@@ -200,7 +200,8 @@
                     </div>
                 </div>
             </div>
-            <div class="ios-lyrics" style="display: none; padding: 0 16px 16px 16px; border-top: 1px dashed #e5e5ea; padding-top: 16px; margin: 0 16px;">`;
+            <div class="ios-lyrics" style="display: none; padding: 0 16px 16px 16px; border-top: 1px dashed #e5e5ea; padding-top: 16px; margin: 0 16px;">
+                <h6 style="margin-bottom: 12px; font-weight: 600; color: #1c1c1e; font-size: 1.05rem;">${val.song_title}</h6>`;
             
             $.each(JSON.parse(val.song_para), function (parakey, paraval) {
                 iosCard += `<pre style="background: #f9f9f9; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 0.95rem; border: 1px solid rgba(0,0,0,0.03); margin-bottom: 10px; color: #3a3a3c; white-space: pre-wrap;">${paraval}</pre>`;
