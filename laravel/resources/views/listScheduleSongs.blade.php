@@ -200,43 +200,47 @@
         e.preventDefault();
         var id = $(this).data("id");
 
-        $.ajax({
-            url: "{{ url('remove-schedule-song') }}",  // Route name
-            type: "POST",
-            data: {
-                _token: "{{ csrf_token() }}", // Include CSRF token
-                sid: id  // Example data
-            },
-            success: function (response) {
-                alert(response.message);
-                location.reload(); // Show response message
-            },
-            error: function (xhr) {
-                console.log(xhr.responseText);
-            }
+        requirePin(function() {
+            $.ajax({
+                url: "{{ url('remove-schedule-song') }}",  // Route name
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}", // Include CSRF token
+                    sid: id  // Example data
+                },
+                success: function (response) {
+                    alert(response.message);
+                    location.reload(); // Show response message
+                },
+                error: function (xhr) {
+                    console.log(xhr.responseText);
+                }
 
 
+            });
         });
 
     });
     
     $('#removeAllSongsBtn').on('click', function () {
-        if(confirm('Are you sure you want to remove ALL scheduled songs?')) {
-            $.ajax({
-                url: "{{ url('remove-all-schedule-songs') }}",
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function (response) {
-                    alert(response.message);
-                    location.reload();
-                },
-                error: function (xhr) {
-                    console.log(xhr.responseText);
-                }
-            });
-        }
+        requirePin(function() {
+            if(confirm('Are you sure you want to remove ALL scheduled songs?')) {
+                $.ajax({
+                    url: "{{ url('remove-all-schedule-songs') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function (response) {
+                        alert(response.message);
+                        location.reload();
+                    },
+                    error: function (xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            }
+        });
     });
     
     $('.editSongBtn').on('click', function (e) {

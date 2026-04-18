@@ -139,7 +139,15 @@
     $(function () {
         var paraCounter = 1;
 
-        $('.select2').select2();
+        $('.select2').select2({
+            minimumResultsForSearch: Infinity
+        }).on('select2:opening select2:closing', function( event ) {
+            var $searchfield = $(this).parent().find('.select2-search__field');
+            $searchfield.prop('disabled', true);
+        });
+        
+        // Force readonly on any existing search fields to prevent mobile keyboard
+        $('.select2-search__field').prop('readonly', true);
 
         // //Initialize Select2 Elements
         // $('.select2bs4').select2({

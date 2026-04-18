@@ -152,7 +152,15 @@
         var paraCounter = {{ count(json_decode($song->song_para, true) ?? []) }};
         if(paraCounter == 0) paraCounter = 1;
 
-        $('.select2').select2();
+        $('.select2').select2({
+            minimumResultsForSearch: Infinity
+        }).on('select2:opening select2:closing', function( event ) {
+            var $searchfield = $(this).parent().find('.select2-search__field');
+            $searchfield.prop('disabled', true);
+        });
+        
+        // Force readonly on any existing search fields to prevent mobile keyboard
+        $('.select2-search__field').prop('readonly', true);
 
         $('input[type="file"]').change(function (e) {
             var fileName = e.target.files[0].name;

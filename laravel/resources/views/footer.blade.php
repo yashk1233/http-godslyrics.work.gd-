@@ -10,7 +10,7 @@
             <p>Please enter passcode to proceed.</p>
         </div>
         <div class="ios-modal-body">
-            <input type="password" id="ios-pin-input" class="ios-pin-input" placeholder="Passcode" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+            <input type="tel" id="ios-pin-input" class="ios-pin-input" placeholder="Passcode" maxlength="4" pattern="[0-9]*" inputmode="numeric" autocomplete="off" style="-webkit-text-security: disc; text-security: disc;">
         </div>
         <div class="ios-modal-footer">
             <button type="button" class="ios-modal-btn" id="ios-pin-cancel">Cancel</button>
