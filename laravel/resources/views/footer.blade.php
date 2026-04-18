@@ -33,6 +33,19 @@
     </div>
 </div>
 
+<!-- iOS Style Alert Modal -->
+<div id="ios-alert-modal" class="ios-modal-overlay" style="display: none; z-index: 9999;">
+    <div class="ios-modal" style="width: 280px; text-align: center;">
+        <div class="ios-modal-header" style="padding: 20px 15px 15px; border-bottom: none;">
+            <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 5px;">Notification</h4>
+            <p id="ios-alert-message" style="font-size: 0.95rem; color: #1c1c1e; margin: 0; line-height: 1.4;"></p>
+        </div>
+        <div class="ios-modal-footer" style="padding: 0; border-top: 1px solid #e5e5ea; display: flex;">
+            <button type="button" class="ios-modal-btn ios-modal-btn-confirm" id="ios-alert-ok" style="flex: 1; padding: 12px; color: #007aff; font-weight: 600; border: none; background: transparent; font-size: 1.05rem; cursor: pointer;">OK</button>
+        </div>
+    </div>
+</div>
+
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
   <!-- Control sidebar content goes here -->
@@ -57,6 +70,22 @@
 
     // Make the body fully scrollable on touch devices
     document.addEventListener('touchstart', function() {}, {passive: true});
+
+    // Override Default Alert
+    window.alert = function(message) {
+        $('#ios-alert-message').text(message);
+        $('#ios-alert-modal').show();
+        setTimeout(() => {
+            $('#ios-alert-modal').addClass('show');
+        }, 10);
+    };
+
+    $('#ios-alert-ok').on('click', function() {
+        $('#ios-alert-modal').removeClass('show');
+        setTimeout(() => {
+            $('#ios-alert-modal').hide();
+        }, 200);
+    });
 
     // Global PIN Modal Logic
     let globalPinAction = null;
