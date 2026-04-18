@@ -137,6 +137,7 @@
                                     <button  data-songid=${val.id} data-all_songsid='${str}' class="btn btn-primary presentSongBtn btn-sm">Present</button>
 
                                     <button data-id=${val.sid} class="btn btn-danger removeSongBtn btn-sm">Remove</button>
+                                    <button data-songid=${val.id} class="btn btn-info editSongBtn btn-sm">Edit</button>
                                 </div>
                                 <br>
                                 <div class="">`;
@@ -192,6 +193,12 @@
 
         });
 
+    });
+    
+    $('.editSongBtn').on('click', function () {
+        var songid = $(this).data("songid");
+        var route = "{{ url('edit-song') }}/" + songid;
+        window.open(route, '_self');
     });
 
     $(document).ready(function () {

@@ -234,5 +234,56 @@ class AdminController extends Controller
         // Example response
         
     }
+
+    public function editSong($id)
+    {
+        $song = SongMaster::find($id);
+        $songMapping = SongMapping::where('song_id', $id)->get();
+        
+        $selectedCategories = $songMapping->pluck('song_category_id')->toArray();
+        $language = $songMapping->first()->song_language_id ?? null;
+        
+        return view('updateSong')->with(compact('song', 'selectedCategories', 'language'));
+    }
+
+    public function updateSong(Request $request)
+    {
+        $validated = Validator::make($request->all(), [
+            'song_id' => 'required',
+            'song_title' => 'required',
+            'song_para' => 'required',
+            'category' => 'required',
+            'language' => 'required',
+        ]);
+        if ($validated->fails()) {
+            return redirect()->back()->with('response', 'Opps something went wrong ! Please try again');
+        }
+
+        $data = $validated->validated();
+        
+        $song_id = $data['song_id'];
+        $updateData = [
+            'song_title' => $data['song_title'],
+            'song_para' => json_encode($data['song_para'])
+        ];
+        
+        $update_data = SongMaster::where('id', $song_id)->update($updateData);
+        
+        // delete old mappings
+        SongMapping::where('song_id', $song_id)->delete();
+        
+        $songMappingData = [];
+        $songMappingKey = 0;
+        foreach($data['category'] as $song_category){
+            $songMappingData[$songMappingKey]['song_id'] = $song_id;
+            $songMappingData[$songMappingKey]['song_category_id'] = $song_category;
+            $songMappingData[$songMappingKey]['song_language_id'] = $data['language'];
+            $songMappingData[$songMappingKey]['created_at'] = date('Y-m-d H:i:s');
+            $songMappingKey++;
+        }
+        SongMapping::insert($songMappingData);
+        
+        return redirect('/view-songs')->with('response', 'Song updated successfully');
+    }
 }
     

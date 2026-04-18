@@ -68,20 +68,20 @@
 
     <section class="content" id="songlistcontent" style="display: none;">
         <div class="container-fluid">
-            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Songs List</h3>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body">
-                        <table id="songlisttable" class="table table-bordered">
+                    <div class="card-body table-responsive">
+                        <table id="songlisttable" class="table table-bordered text-nowrap">
                             <thead>
                                 <tr>
                                     <!-- <th>Sr.No</th> -->
                                     <th>Song Name</th>
                                     <th style="width: 40px">Present</th>
                                     <th style="width: 40px">Schedule</th>
+                                    <th style="width: 40px">Edit</th>
                                 </tr>
                             </thead>
                             <tbody id="song_tbody">
@@ -96,7 +96,6 @@
 
 
                 <!-- /.card -->
-            </div>
         </div>
     </section>
 </div>
@@ -149,6 +148,7 @@
                             tbody += `<td>${val.song_title}</td>`;
                             tbody += `<td><button  style="width: auto;" data-songid=${val.id} type="button" class=" presentSongBtn btn btn-primary btn-block"><i class="fas fa-play"></i></button></td>`;
                             tbody += `<td><button  style="width: auto;" data-songid=${val.id} type="button" class=" scheduleSongBtn btn btn-success btn-block"><i class="fas fa-clock"></i></button></td>`;
+                            tbody += `<td><button  style="width: auto;" data-songid=${val.id} type="button" class=" editSongBtn btn btn-info btn-block"><i class="fas fa-edit"></i></button></td>`;
                             tbody += `</tr>`;
                         });
                         $('#song_tbody').append(tbody);
@@ -158,6 +158,11 @@
                             var route = "{{ url('present-song') }}/" + songid;
                             window.open(route, '_blank');
     
+                        });
+                        $('.editSongBtn').on('click', function () {
+                            var songid = $(this).data("songid");
+                            var route = "{{ url('edit-song') }}/" + songid;
+                            window.open(route, '_self');
                         });
                         $('.scheduleSongBtn').on('click', function () {
                             var songid = $(this).data("songid");
