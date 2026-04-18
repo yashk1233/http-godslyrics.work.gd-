@@ -7,4 +7,4 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
 
-\Illuminate\Support\Facades\Schedule::command('backup:database')->dailyAt('21:10')->timezone('Asia/Kolkata');
+\Illuminate\Support\Facades\Schedule::command('backup:database')->dailyAt('21:42')->timezone('Asia/Kolkata');
