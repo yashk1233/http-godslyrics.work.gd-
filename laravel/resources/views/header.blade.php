@@ -181,8 +181,8 @@
         background-color: #f2f2f7 !important;
     }
     .main-header.navbar {
-        border-bottom: none !important;
-        background-color: #f2f2f7 !important;
+        border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+        background-color: #ffffff !important;
         box-shadow: none !important;
     }
     
@@ -199,6 +199,20 @@
         padding: 0 !important;
         margin-top: 10px;
         padding-left: 8px !important;
+    }
+    
+    @media (max-width: 575.98px) {
+        .content-header h1 {
+            display: none !important;
+        }
+        .content-header {
+            padding-top: 15px !important;
+            padding-bottom: 5px !important;
+        }
+        .breadcrumb {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
     }
     
     /* Select2 Dropdown Styling */
@@ -403,15 +417,17 @@
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <!-- Left navbar links -->
-      <ul class="navbar-nav">
+      <ul class="navbar-nav align-items-center">
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="index3.html" class="nav-link">Home</a>
+        <li class="nav-item d-sm-none">
+          <span class="nav-link" style="font-weight: 700; color: #1c1c1e; padding-left: 0; font-size: 1.1rem; pointer-events: none;">
+            {{ $mobile_title ?? 'Gods Lyrics' }}
+          </span>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="#" class="nav-link"></a>
+          <a href="{{url('/')}}" class="nav-link">Home</a>
         </li>
       </ul>
 
