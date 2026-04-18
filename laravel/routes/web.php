@@ -13,4 +13,5 @@ Route::get('/edit-song/{id}',[App\Http\Controllers\AdminController::class,'editS
 Route::post('/update-song',[App\Http\Controllers\AdminController::class,'updateSong']);
 Route::post('/schedule-song', [App\Http\Controllers\AdminController::class, 'scheduleSong']);
 Route::post('/remove-schedule-song', [App\Http\Controllers\AdminController::class, 'removeScheduleSong']);
+Route::post('/remove-all-schedule-songs', [App\Http\Controllers\AdminController::class, 'removeAllScheduleSongs']);
 Route::get('/list-schedule-song',[App\Http\Controllers\AdminController::class,'listScheduleSong']);

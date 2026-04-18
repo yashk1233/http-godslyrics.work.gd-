@@ -235,6 +235,15 @@ class AdminController extends Controller
         
     }
 
+    public function removeAllScheduleSongs(Request $request)
+    {
+        $delete = ScheduleSong::truncate();
+        
+        return response()->json([
+            'message' => "All Scheduled Songs Removed Successfully."
+        ]);
+    }
+
     public function editSong($id)
     {
         $song = SongMaster::find($id);

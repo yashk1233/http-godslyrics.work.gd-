@@ -43,6 +43,226 @@
 
 
 </head>
+<style>
+    /* iOS Global Styles */
+    .ios-card {
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+        padding: 20px;
+        margin-bottom: 16px;
+        border: 1px solid rgba(0,0,0,0.02);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .ios-card:active {
+        transform: scale(0.99);
+    }
+    .ios-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .ios-card-title {
+        font-weight: 700;
+        font-size: 1.25rem;
+        margin: 0;
+        color: #1c1c1e;
+        letter-spacing: -0.02em;
+    }
+    .ios-card-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .ios-btn {
+        border-radius: 12px;
+        padding: 10px 16px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        cursor: pointer;
+        transition: opacity 0.2s, transform 0.1s;
+        flex: 1;
+        min-width: 80px;
+    }
+    .ios-btn:active {
+        opacity: 0.7;
+        transform: scale(0.95);
+    }
+    .ios-btn-primary { background: #007aff; color: #fff; }
+    .ios-btn-danger { background: #ff3b30; color: #fff; }
+    .ios-btn-info { background: #34c759; color: #fff; } 
+    .ios-btn-success { background: #ff9500; color: #fff; } /* Orange for schedule */
+    .ios-btn i { font-size: 1.1rem; }
+    
+    .ios-card-actions-inline {
+        display: flex;
+        gap: 6px;
+        flex-shrink: 0;
+    }
+    .ios-btn-small {
+        border-radius: 50%;
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        cursor: pointer;
+        transition: opacity 0.2s, transform 0.1s;
+    }
+    .ios-btn-small:active {
+        opacity: 0.7;
+        transform: scale(0.9);
+    }
+    .ios-btn-small i { font-size: 0.9rem; margin: 0; }
+    
+    /* Global form styling */
+    .ios-input {
+        border-radius: 14px;
+        border: 1px solid #e5e5ea;
+        padding: 12px 16px;
+        font-size: 1rem;
+        box-shadow: none;
+    }
+    .ios-input:focus {
+        border-color: #007aff;
+        box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+    }
+    .select2-container--default .select2-selection--single,
+    .select2-container--default .select2-selection--multiple {
+        border-radius: 14px !important;
+        border: 1px solid #e5e5ea !important;
+        min-height: 46px;
+    }
+    .select2-container--default.select2-container--focus .select2-selection--multiple {
+        border-color: #007aff !important;
+    }
+    
+    /* Navbar & App Background */
+    body, .content-wrapper {
+        background-color: #f2f2f7 !important;
+    }
+    .main-header.navbar {
+        border-bottom: none !important;
+        background-color: #f2f2f7 !important;
+        box-shadow: none !important;
+    }
+    
+    /* Page Title */
+    .content-header h1 {
+        font-weight: 800 !important;
+        font-size: 2.2rem !important;
+        letter-spacing: -0.04em;
+        color: #1c1c1e;
+        padding-left: 8px;
+    }
+    .breadcrumb {
+        background: transparent !important;
+        padding: 0 !important;
+        margin-top: 10px;
+        padding-left: 8px !important;
+    }
+    
+    /* Select2 Dropdown Styling */
+    .select2-dropdown {
+        border: none !important;
+        border-radius: 16px !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0,0,0,0.06) !important;
+        overflow: hidden;
+        margin-top: 4px;
+    }
+    .select2-results__option {
+        padding: 12px 18px !important;
+        font-size: 1rem;
+        border-bottom: 1px solid rgba(0,0,0,0.04);
+        transition: background-color 0.1s;
+    }
+    .select2-results__option--highlighted[aria-selected] {
+        background-color: #007aff !important;
+        color: white !important;
+    }
+    .select2-results__option[aria-selected="true"] {
+        background-color: rgba(0, 122, 255, 0.08) !important;
+        color: #007aff !important;
+        font-weight: 600;
+    }
+    .select2-search--dropdown .select2-search__field {
+        border-radius: 10px !important;
+        border: 1px solid #e5e5ea !important;
+        padding: 8px 12px !important;
+        margin-bottom: 4px;
+    }
+    
+    /* iOS Sidebar Styles */
+    .main-sidebar {
+        background-color: #ffffff !important;
+        box-shadow: 4px 0 24px rgba(0,0,0,0.04) !important;
+        border-right: 1px solid rgba(0,0,0,0.02);
+    }
+    .brand-link {
+        color: #1c1c1e !important;
+        border-bottom: 1px solid #f2f2f7 !important;
+        padding-left: 20px;
+    }
+    .brand-text {
+        font-weight: 800 !important;
+        font-size: 1.4rem;
+        letter-spacing: -0.02em;
+    }
+    .nav-sidebar .nav-link {
+        color: #3a3a3c !important;
+        border-radius: 14px !important;
+        margin: 4px 12px !important;
+        padding: 12px 16px !important;
+        transition: all 0.2s ease;
+        font-weight: 600;
+    }
+    .nav-sidebar .nav-link:hover, .nav-sidebar .nav-link.active {
+        background-color: rgba(0, 122, 255, 0.08) !important;
+        color: #007aff !important;
+    }
+    .nav-sidebar .nav-link i {
+        color: inherit !important;
+        font-size: 1.2rem;
+        width: 28px;
+    }
+    /* iOS Sidebar Search */
+    .form-control-sidebar {
+        background-color: #f2f2f7 !important;
+        border: none !important;
+        border-radius: 12px 0 0 12px !important;
+        color: #1c1c1e !important;
+        padding-left: 16px;
+        box-shadow: none !important;
+    }
+    .form-control-sidebar::placeholder {
+        color: #8e8e93 !important;
+    }
+    .btn-sidebar {
+        background-color: #f2f2f7 !important;
+        border: none !important;
+        border-radius: 0 12px 12px 0 !important;
+        color: #8e8e93 !important;
+        box-shadow: none !important;
+    }
+    .form-inline .input-group {
+        width: calc(100% - 24px);
+        margin: 10px 12px;
+    }
+    .nav-link[data-widget="pushmenu"] {
+        color: #1c1c1e !important;
+    }
+</style>
 
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
@@ -195,12 +415,12 @@
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <aside class="main-sidebar sidebar-light-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index3.html" class="brand-link">
+      <a href="{{url('/')}}" class="brand-link">
         <!-- <img src='{{asset("dist/img/AdminLTELogo.png")}}' alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
           style="opacity: .8"> -->
-        <span class="brand-text font-weight-light">Gods Lyrics</span>
+        <span class="brand-text">Gods Lyrics</span>
       </a>
 
       <!-- Sidebar -->

@@ -30,9 +30,9 @@
                 <!-- left column -->
                 <div class="col-md-12">
                     <!-- jquery validation -->
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Update Song</h3>
+                    <div class="ios-card">
+                        <div class="ios-card-header">
+                            <h3 class="ios-card-title">Update Song</h3>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
@@ -45,7 +45,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="news-title">Song Title</label>
-                                            <input type="text" name="song_title" class="form-control" id="song-title"
+                                            <input type="text" name="song_title" class="form-control ios-input" id="song-title"
                                                 placeholder="Enter Song Title" value="{{ $song->song_title }}">
                                         </div>
                                     </div>
@@ -90,13 +90,13 @@
                                             @if(count($paragraphs) > 0)
                                                 @foreach($paragraphs as $index => $para)
                                                     <div class="form-group">
-                                                        <textarea class="form-control song_para" rows="4" name="song_para[{{ $index }}]"
+                                                        <textarea class="form-control ios-input song_para" rows="4" name="song_para[{{ $index }}]"
                                                             style=" margin-bottom: 20px; " placeholder="Enter ...">{{ $para }}</textarea>
                                                     </div>
                                                 @endforeach
                                             @else
                                                 <div class="form-group">
-                                                    <textarea class="form-control song_para" rows="4" name="song_para[0]"
+                                                    <textarea class="form-control ios-input song_para" rows="4" name="song_para[0]"
                                                         style=" margin-bottom: 20px; " placeholder="Enter ..."></textarea>
                                                 </div>
                                             @endif
@@ -106,15 +106,15 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12" style=" display: flex; justify-content: center; ">
-                                        <button id="add_para" style="width: auto;" type="button"
-                                            class="btn btn-primary btn-block"><i class="fas fa-plus"></i></button>
+                                        <button id="add_para" style="width: auto; min-width: 60px; padding: 6px 12px;" type="button"
+                                            class="ios-btn ios-btn-info"><i class="fas fa-plus"></i></button>
                                     </div>
                                 </div>
 
                             </div>
                             <!-- /.card-body -->
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Update</button>
+                            <div class="card-footer" style="background: transparent; border-top: none;">
+                                <button type="submit" class="ios-btn ios-btn-primary" style="width: 100%;">Update</button>
                             </div>
                         </form>
                     </div>
@@ -156,7 +156,7 @@
             $('.custom-file-label').html(fileName);
         });
         $("#add_para").click(function () {
-            $('#songParaSection').append(`<div class="form-group"><textarea class="form-control song_para" rows="4" name="song_para[${paraCounter}]" style=" margin-bottom: 20px; " placeholder="Enter ..."></textarea></div>`);
+            $('#songParaSection').append(`<div class="form-group"><textarea class="form-control ios-input song_para" rows="4" name="song_para[${paraCounter}]" style=" margin-bottom: 20px; " placeholder="Enter ..."></textarea></div>`);
             paraCounter++;
             jQuery.validator.addClassRules('song_para', {
                 required: true /*,

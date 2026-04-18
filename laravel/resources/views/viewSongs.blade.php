@@ -26,11 +26,11 @@
     </div>
     <section class="content">
         <div class="container-fluid">
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h3 class="card-title">Songs</h3>
-                </div> <!-- /.card-body -->
-                <div class="card-body">
+            <div class="ios-card">
+                <div class="ios-card-header" style="margin-bottom: 0;">
+                    <h3 class="ios-card-title">Songs Filter</h3>
+                </div>
+                <div class="card-body" style="padding-top: 10px;">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -68,32 +68,7 @@
 
     <section class="content" id="songlistcontent" style="display: none;">
         <div class="container-fluid">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Songs List</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body table-responsive">
-                        <table id="songlisttable" class="table table-bordered text-nowrap">
-                            <thead>
-                                <tr>
-                                    <!-- <th>Sr.No</th> -->
-                                    <th style="white-space: normal; width: 100%;">Song Name</th>
-                                    <th style="white-space: nowrap;">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="song_tbody">
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
-
-                </div>
-                <!-- /.card -->
-
-
-                <!-- /.card -->
+                <div id="song_tbody"></div>
         </div>
     </section>
 </div>
@@ -143,15 +118,24 @@
                         var all_songsid = data.map(function(val) { return val.id; }).join(',');
                         
                         $.each(data, function (key, val) {
-                            tbody += `<tr>`;
-                            // tbody += `<td>${key + 1}</td>`;
-                            tbody += `<td style="white-space: normal;">${val.song_title}</td>`;
-                            tbody += `<td style="white-space: nowrap;">
-                                <button data-songid=${val.id} data-all_songsid="${all_songsid}" type="button" class="presentSongBtn btn btn-primary btn-sm"><i class="fas fa-play"></i></button>
-                                <button data-songid=${val.id} type="button" class="scheduleSongBtn btn btn-success btn-sm"><i class="fas fa-clock"></i></button>
-                                <button data-songid=${val.id} type="button" class="editSongBtn btn btn-info btn-sm"><i class="fas fa-edit"></i></button>
-                            </td>`;
-                            tbody += `</tr>`;
+                            var iosCard = `
+                            <div class="ios-card" style="padding: 16px;">
+                                <div class="ios-card-header" style="margin-bottom: 0;">
+                                    <h5 class="ios-card-title text-truncate" style="flex:1; margin-right: 10px; min-width: 0;">${(key+1)+'. '+val.song_title}</h5>
+                                    <div class="ios-card-actions-inline">
+                                        <button data-songid=${val.id} data-all_songsid="${all_songsid}" type="button" class="ios-btn-small ios-btn-primary presentSongBtn" title="Present">
+                                            <i class="fas fa-play"></i>
+                                        </button>
+                                        <button data-songid=${val.id} type="button" class="ios-btn-small ios-btn-success scheduleSongBtn" title="Schedule">
+                                            <i class="fas fa-clock"></i>
+                                        </button>
+                                        <button data-songid=${val.id} type="button" class="ios-btn-small ios-btn-info editSongBtn" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>`;
+                            tbody += iosCard;
                         });
                         $('#song_tbody').append(tbody);
                         $('#songlistcontent').show();

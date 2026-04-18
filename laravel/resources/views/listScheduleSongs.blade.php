@@ -6,40 +6,61 @@
         padding-bottom: 29px;
     }
 
-    .rotate-icon {
-        transition: transform 0.3s ease-in-out;
+    .ios-card {
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+        padding: 20px;
+        margin-bottom: 16px;
+        border: 1px solid rgba(0,0,0,0.02);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-
-    .rotate {
-        transform: rotate(180deg);
+    .ios-card:active {
+        transform: scale(0.98);
     }
-
-    /* Hide body initially */
-    .card-body {
-        display: none;
-        border-top: 1px solid #dee2e6;
-        padding: 15px;
-    }
-
-    /* Flexbox for Bifurcation */
-    .content-layout {
+    .ios-card-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-bottom: 16px;
+        -webkit-tap-highlight-color: transparent;
     }
-
-    /* Align buttons to the right */
-    .btn-group-custom {
+    .ios-card-title {
+        font-weight: 700;
+        font-size: 1.25rem;
+        margin: 0;
+        color: #1c1c1e;
+        letter-spacing: -0.02em;
+    }
+    .ios-card-actions {
         display: flex;
         gap: 10px;
+        flex-wrap: wrap;
     }
-
-    .present-remove-btn{
-        background: #f3f3f3;
-    padding: 12px;
-    margin: -8px;
-    border-radius: 5px;
+    .ios-btn {
+        border-radius: 12px;
+        padding: 10px 16px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        cursor: pointer;
+        transition: opacity 0.2s, transform 0.1s;
+        flex: 1;
+        min-width: 80px;
     }
+    .ios-btn:active {
+        opacity: 0.7;
+        transform: scale(0.95);
+    }
+    .ios-btn-primary { background: #007aff; color: #fff; }
+    .ios-btn-danger { background: #ff3b30; color: #fff; }
+    .ios-btn-info { background: #34c759; color: #fff; } 
+    .ios-btn-info i, .ios-btn-danger i, .ios-btn-primary i { font-size: 1.1rem; }
 </style>
 
 <div class="content-wrapper">
@@ -63,6 +84,12 @@
         <div class="container-fluid">
             
             <input type="hidden" id="songData" value='@json($data)'>
+
+            <div class="row mb-3">
+                <div class="col-md-12 d-flex ">
+                    <a href="javascript:void(0)" id="removeAllSongsBtn" class="text-primary">Remove All Schedule</a>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-md-12">
@@ -124,42 +151,35 @@
     tbody = ``;
     $.each(data, function (key, val) {
 
-        var accordian = `
-        <div class="card card-primary card-outline">
-                            <div class="card-header toggle-section">
-                                <h5 class="mb-0 d-flex justify-content-between align-items-center w-100">
-                                    ${(key+1)+'. '+val.song_title}
-                                    <i class="fas fa-chevron-down rotate-icon"></i>
-                                </h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="btn-group-custom present-remove-btn">
-                                    <button  data-songid=${val.id} data-all_songsid='${str}' class="btn btn-primary presentSongBtn btn-sm">Present</button>
+        var iosCard = `
+        <div class="ios-card" style="padding: 16px;">
+            <div class="ios-card-header" style="margin-bottom: 0;">
+                <div class="toggle-lyrics" style="cursor:pointer; display:flex; align-items:center; flex:1; min-width: 0;">
+                    <h5 class="ios-card-title text-truncate" style="flex:1; margin-right: 5px;">${(key+1)+'. '+val.song_title}</h5>
+                    <i class="fas fa-chevron-down text-muted rotate-icon" style="margin-right: 10px; font-size: 0.8rem;"></i>
+                </div>
+                <div class="ios-card-actions-inline">
+                    <button data-songid=${val.id} data-all_songsid='${str}' class="ios-btn-small ios-btn-primary presentSongBtn" title="Present">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button data-songid=${val.id} class="ios-btn-small ios-btn-info editSongBtn" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button data-id=${val.sid} class="ios-btn-small ios-btn-danger removeSongBtn" title="Remove">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="ios-lyrics" style="display: none; margin-top: 16px; border-top: 1px solid #f2f2f7; padding-top: 16px;">`;
+            
+            $.each(JSON.parse(val.song_para), function (parakey, paraval) {
+                iosCard += `<pre style="background: #f9f9f9; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 0.95rem; border: 1px solid rgba(0,0,0,0.03); margin-bottom: 10px; color: #3a3a3c; white-space: pre-wrap;">${paraval}</pre>`;
+            });
 
-                                    <button data-id=${val.sid} class="btn btn-danger removeSongBtn btn-sm">Remove</button>
-                                    <button data-songid=${val.id} class="btn btn-info editSongBtn btn-sm">Edit</button>
-                                </div>
-                                <br>
-                                <div class="">`;
-
-                                    $.each(JSON.parse(val.song_para), function (parakey, paraval) {
-                                        accordian += `<pre style=" background: #f5f3f3;    border-radius: 5px; ">${paraval}</pre>`;
-
-                                    });
-
-                                    // <p>Content for section 1.</p>
-
-                                    accordian +=`  </div>
-                            </div>
-                        </div>
+            iosCard +=`</div>
+        </div>
         `;
-        tbody += `<tr>`;
-        // tbody += `<td>${key + 1}</td>`;
-        tbody += `<td>${val.song_title}</td>`;
-        tbody += `<td><button  style="width: auto;" data-songid=${val.id} type="button" class=" presentSongBtn btn btn-primary btn-block"><i class="fas fa-play"></i></button></td>`;
-        tbody += `<td><button  style="width: auto;" data-id=${val.sid} type="button" class=" removeSongBtn btn btn-danger btn-block"><i class="fas fa-times"></i></button></td>`;
-        tbody += `</tr>`;
-        $('#accordion').append(accordian);
+        $('#accordion').append(iosCard);
 
     });
     $('#song_tbody').append(tbody);
@@ -195,6 +215,25 @@
 
     });
     
+    $('#removeAllSongsBtn').on('click', function () {
+        if(confirm('Are you sure you want to remove ALL scheduled songs?')) {
+            $.ajax({
+                url: "{{ url('remove-all-schedule-songs') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function (response) {
+                    alert(response.message);
+                    location.reload();
+                },
+                error: function (xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+    });
+    
     $('.editSongBtn').on('click', function () {
         var songid = $(this).data("songid");
         var route = "{{ url('edit-song') }}/" + songid;
@@ -216,19 +255,19 @@
 
         });
 
-        $(".toggle-section").click(function () {
-            var cardBody = $(this).next(".card-body"); // Target the next card-body
+        $(document).on("click", ".toggle-lyrics", function () {
+            var cardBody = $(this).closest(".ios-card").find(".ios-lyrics");
             var icon = $(this).find(".rotate-icon");
 
             if (cardBody.is(":visible")) {
-                cardBody.slideUp(); // Close current
-                icon.removeClass("rotate"); // Reset icon
+                cardBody.slideUp(250); 
+                icon.removeClass("rotate"); 
             } else {
-                $(".card-body").slideUp(); // Close all other sections
-                $(".rotate-icon").removeClass("rotate"); // Reset all icons
+                $(".ios-lyrics").slideUp(250); 
+                $(".rotate-icon").removeClass("rotate"); 
 
-                cardBody.slideDown(); // Open clicked section
-                icon.addClass("rotate"); // Rotate icon
+                cardBody.slideDown(250); 
+                icon.addClass("rotate"); 
             }
         });
 
