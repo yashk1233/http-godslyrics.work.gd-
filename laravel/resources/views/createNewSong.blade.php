@@ -143,7 +143,7 @@
             minimumResultsForSearch: Infinity
         }).on('select2:opening select2:closing', function( event ) {
             var $searchfield = $(this).parent().find('.select2-search__field');
-            $searchfield.prop('disabled', true);
+            $searchfield.prop('readonly', true);
         });
         
         // Force readonly on any existing search fields to prevent mobile keyboard

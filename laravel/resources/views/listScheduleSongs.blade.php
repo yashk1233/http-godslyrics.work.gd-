@@ -6,61 +6,81 @@
         padding-bottom: 29px;
     }
 
-    .ios-card {
+<style>
+    .select2-container--default .select2-selection--single {
+        padding-bottom: 29px;
+    }
+
+    .ios-list-group {
         background: #ffffff;
-        border-radius: 20px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
-        padding: 20px;
-        margin-bottom: 16px;
-        border: 1px solid rgba(0,0,0,0.02);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border-radius: 14px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03), 0 1px 4px rgba(0, 0, 0, 0.03);
+        margin-bottom: 24px;
+        border: 1px solid rgba(0,0,0,0.04);
     }
-    .ios-card:active {
-        transform: scale(0.98);
+    .ios-list-row-container {
+        background: transparent;
+        transition: background-color 0.15s ease;
     }
-    .ios-card-header {
+    .ios-list-row-container:first-child {
+        border-top-left-radius: 14px;
+        border-top-right-radius: 14px;
+    }
+    .ios-list-row-container:last-child {
+        border-bottom-left-radius: 14px;
+        border-bottom-right-radius: 14px;
+    }
+    .ios-list-row {
+        padding: 16px;
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        margin-bottom: 16px;
-        -webkit-tap-highlight-color: transparent;
+        justify-content: space-between;
     }
-    .ios-card-title {
-        font-weight: 700;
-        font-size: 1.25rem;
-        margin: 0;
-        color: #1c1c1e;
-        letter-spacing: -0.02em;
-    }
-    .ios-card-actions {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-    .ios-btn {
+    .ios-icon-wrapper {
+        width: 44px;
+        height: 44px;
         border-radius: 12px;
-        padding: 10px 16px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        border: none;
-        display: inline-flex;
+        background: linear-gradient(135deg, #e0f0ff 0%, #c2e0ff 100%);
+        display: flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        cursor: pointer;
-        transition: opacity 0.2s, transform 0.1s;
-        flex: 1;
-        min-width: 80px;
+        margin-right: 16px;
+        flex-shrink: 0;
+        box-shadow: 0 2px 6px rgba(0, 122, 255, 0.15);
     }
-    .ios-btn:active {
-        opacity: 0.7;
+    .ios-icon-wrapper i {
+        color: #007aff;
+        font-size: 1.2rem;
+    }
+    .ios-row-title {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #1c1c1e;
+        letter-spacing: -0.015em;
+    }
+    .ios-row-subtitle {
+        margin: 4px 0 0 0;
+        font-size: 0.85rem;
+        color: #8e8e93;
+        font-weight: 400;
+    }
+    .ios-more-btn {
+        background: #f2f2f7;
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #8e8e93;
+        transition: all 0.2s;
+    }
+    .ios-more-btn:active {
+        background: #e5e5ea;
         transform: scale(0.95);
     }
-    .ios-btn-primary { background: #007aff; color: #fff; }
-    .ios-btn-danger { background: #ff3b30; color: #fff; }
-    .ios-btn-info { background: #34c759; color: #fff; } 
-    .ios-btn-info i, .ios-btn-danger i, .ios-btn-primary i { font-size: 1.1rem; }
 </style>
 
 <div class="content-wrapper">
@@ -144,25 +164,31 @@
     var songs_id = arrayColumn(data, 'id');
     var str = songs_id.join([songs_id = ',']);
    
-    tbody = ``;
+    tbody = `<div class="ios-list-group">`;
     $.each(data, function (key, val) {
-
+        var isLast = (key === data.length - 1) ? 'border-bottom: none;' : 'border-bottom: 1px solid #e5e5ea;';
         var iosCard = `
-        <div class="ios-card" style="padding: 16px;">
-            <div class="ios-card-header" style="margin-bottom: 0;">
+        <div class="ios-list-row-container" style="${isLast}">
+            <div class="ios-list-row">
                 <div class="toggle-lyrics" style="cursor:pointer; display:flex; align-items:center; flex:1; min-width: 0;">
-                    <h5 class="ios-card-title text-truncate" style="flex:1; margin-right: 5px;">${(key+1)+'. '+val.song_title}</h5>
+                    <div class="ios-icon-wrapper" style="width: 40px; height: 40px; margin-right: 14px;">
+                        <i class="fas fa-music" style="font-size: 1.1rem;"></i>
+                    </div>
+                    <div style="flex: 1; min-width: 0; padding-right: 10px;">
+                        <h5 class="ios-row-title text-truncate">${val.song_title}</h5>
+                        <p class="ios-row-subtitle">Song #${val.id}</p>
+                    </div>
                     <i class="fas fa-chevron-down text-muted rotate-icon" style="margin-right: 10px; font-size: 0.8rem;"></i>
                 </div>
-                <div class="ios-card-actions-inline">
-                    <button data-songid=${val.id} data-all_songsid='${str}' class="ios-btn-small ios-btn-primary presentSongBtn" title="Present">
-                        <i class="fas fa-play"></i>
+                <div class="ios-card-actions-inline" style="display: flex; align-items: center; flex-shrink: 0;">
+                    <button data-songid=${val.id} data-all_songsid='${str}' class="presentSongBtn" title="Present" style="width:36px; height:36px; border-radius:50%; border:none; background:#007aff; color:#fff; display:flex; align-items:center; justify-content:center; box-shadow: 0 4px 10px rgba(0,122,255,0.3); margin-right: 12px; cursor: pointer;">
+                        <i class="fas fa-play" style="font-size: 0.85rem; margin-left: 3px;"></i>
                     </button>
                     <div class="dropdown">
-                        <button class="ios-btn-small bg-light text-dark dropdown-toggle" type="button" id="dropdownMenuButton${val.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow: none;">
-                            <i class="fas fa-ellipsis-v"></i>
+                        <button class="ios-more-btn dropdown-toggle" type="button" id="dropdownMenuButton${val.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow: none;">
+                            <i class="fas fa-ellipsis-h"></i>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right border-0" aria-labelledby="dropdownMenuButton${val.id}" style="border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 8px;">
+                        <div class="dropdown-menu dropdown-menu-right border-0" aria-labelledby="dropdownMenuButton${val.id}" style="border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.12); padding: 8px; margin-top: 8px;">
                             <a class="dropdown-item editSongBtn" href="#" data-songid="${val.id}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
                                 <i class="fas fa-edit text-info mr-2" style="width: 20px;"></i> Edit
                             </a>
@@ -174,7 +200,7 @@
                     </div>
                 </div>
             </div>
-            <div class="ios-lyrics" style="display: none; margin-top: 16px; border-top: 1px solid #f2f2f7; padding-top: 16px;">`;
+            <div class="ios-lyrics" style="display: none; padding: 0 16px 16px 16px; border-top: 1px dashed #e5e5ea; padding-top: 16px; margin: 0 16px;">`;
             
             $.each(JSON.parse(val.song_para), function (parakey, paraval) {
                 iosCard += `<pre style="background: #f9f9f9; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 0.95rem; border: 1px solid rgba(0,0,0,0.03); margin-bottom: 10px; color: #3a3a3c; white-space: pre-wrap;">${paraval}</pre>`;
@@ -183,9 +209,10 @@
             iosCard +=`</div>
         </div>
         `;
-        $('#accordion').append(iosCard);
-
+        tbody += iosCard;
     });
+    tbody += `</div>`;
+    $('#accordion').append(tbody);
     $('#song_tbody').append(tbody);
     $('#songlistcontent').show();
     $('.presentSongBtn').on('click', function () {
@@ -266,7 +293,7 @@
         });
 
         $(document).on("click", ".toggle-lyrics", function () {
-            var cardBody = $(this).closest(".ios-card").find(".ios-lyrics");
+            var cardBody = $(this).closest(".ios-list-row-container").find(".ios-lyrics");
             var icon = $(this).find(".rotate-icon");
 
             if (cardBody.is(":visible")) {

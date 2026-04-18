@@ -5,6 +5,100 @@
     .select2-container--default .select2-selection--single {
         padding-bottom: 29px;
     }
+    .select2-container--default .select2-selection--multiple {
+        border-radius: 12px !important;
+        border: 1px solid #e5e5ea !important;
+        min-height: 44px !important;
+        padding-top: 4px !important;
+        padding-left: 4px !important;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        background-color: #e0f0ff !important;
+        border: none !important;
+        border-radius: 8px !important;
+        color: #007aff !important;
+        padding: 6px 10px !important;
+        font-weight: 500 !important;
+        font-size: 0.9rem !important;
+        margin-top: 2px !important;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+        color: #007aff !important;
+        margin-right: 6px !important;
+        border-right: none !important;
+    }
+    
+    .ios-list-group {
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03), 0 1px 4px rgba(0, 0, 0, 0.03);
+        margin-bottom: 24px;
+        border: 1px solid rgba(0,0,0,0.04);
+    }
+    .ios-list-row {
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: transparent;
+        transition: background-color 0.15s ease;
+    }
+    .ios-list-row:first-child {
+        border-top-left-radius: 14px;
+        border-top-right-radius: 14px;
+    }
+    .ios-list-row:last-child {
+        border-bottom-left-radius: 14px;
+        border-bottom-right-radius: 14px;
+    }
+    .ios-list-row:active {
+        background-color: #f2f2f7;
+    }
+    .ios-icon-wrapper {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #e0f0ff 0%, #c2e0ff 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 16px;
+        flex-shrink: 0;
+        box-shadow: 0 2px 6px rgba(0, 122, 255, 0.15);
+    }
+    .ios-icon-wrapper i {
+        color: #007aff;
+        font-size: 1.2rem;
+    }
+    .ios-row-title {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #1c1c1e;
+        letter-spacing: -0.015em;
+    }
+    .ios-row-subtitle {
+        margin: 4px 0 0 0;
+        font-size: 0.85rem;
+        color: #8e8e93;
+        font-weight: 400;
+    }
+    .ios-more-btn {
+        background: #f2f2f7;
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #8e8e93;
+        transition: all 0.2s;
+    }
+    .ios-more-btn:active {
+        background: #e5e5ea;
+        transform: scale(0.95);
+    }
 </style>
 
 <div class="content-wrapper">
@@ -27,8 +121,8 @@
     <section class="content">
         <div class="container-fluid">
             <div class="ios-card">
-                <div class="ios-card-header" style="margin-bottom: 0;">
-                    <h3 class="ios-card-title">Songs Filter</h3>
+                <div class="ios-card-header" style="margin-bottom: 0; padding-bottom: 5px; border-bottom: 1px solid #f2f2f7;">
+                    <h3 class="ios-card-title" style="font-weight: 700; color: #1c1c1e; font-size: 1.3rem;">Songs Filter</h3>
                 </div>
                 <div class="card-body" style="padding-top: 10px;">
                     <div class="row">
@@ -95,7 +189,7 @@
             minimumResultsForSearch: Infinity
         }).on('select2:opening select2:closing', function( event ) {
             var $searchfield = $(this).parent().find('.select2-search__field');
-            $searchfield.prop('disabled', true);
+            $searchfield.prop('readonly', true);
         });
         
         // Force readonly on any existing search fields to prevent mobile keyboard
@@ -120,35 +214,43 @@
                     },
                     success: function (data) {
                         data = data.msg;
-                        tbody = ``;
+                        tbody = `<div class="ios-list-group">`;
                         var all_songsid = data.map(function(val) { return val.id; }).join(',');
                         
                         $.each(data, function (key, val) {
-                            var iosCard = `
-                            <div class="ios-card" style="padding: 16px;">
-                                <div class="ios-card-header" style="margin-bottom: 0;">
-                                    <h5 class="ios-card-title text-truncate" style="flex:1; margin-right: 10px; min-width: 0;">${(key+1)+'. '+val.song_title}</h5>
-                                    <div class="dropdown">
-                                        <button class="ios-btn-small bg-light text-dark dropdown-toggle" type="button" id="dropdownMenuButton${val.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow: none;">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-right border-0" aria-labelledby="dropdownMenuButton${val.id}" style="border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 8px;">
-                                            <a class="dropdown-item presentSongBtn" href="#" data-songid="${val.id}" data-all_songsid="${all_songsid}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
-                                                <i class="fas fa-play text-primary mr-2" style="width: 20px;"></i> Present
-                                            </a>
-                                            <a class="dropdown-item scheduleSongBtn" href="#" data-songid="${val.id}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
-                                                <i class="fas fa-clock text-warning mr-2" style="width: 20px;"></i> Schedule
-                                            </a>
-                                            <div class="dropdown-divider my-1"></div>
-                                            <a class="dropdown-item editSongBtn" href="#" data-songid="${val.id}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
-                                                <i class="fas fa-edit text-info mr-2" style="width: 20px;"></i> Edit
-                                            </a>
-                                        </div>
+                            var isLast = (key === data.length - 1) ? 'border-bottom: none;' : 'border-bottom: 1px solid #e5e5ea;';
+                            var iosRow = `
+                            <div class="ios-list-row" style="${isLast}">
+                                <div style="display: flex; align-items: center; flex: 1; min-width: 0;">
+                                    <div class="ios-icon-wrapper">
+                                        <i class="fas fa-music"></i>
+                                    </div>
+                                    <div style="flex: 1; min-width: 0;">
+                                        <h5 class="ios-row-title text-truncate">${val.song_title}</h5>
+                                        <p class="ios-row-subtitle">Song #${val.id}</p>
+                                    </div>
+                                </div>
+                                <div class="dropdown" style="flex-shrink: 0; margin-left: 12px;">
+                                    <button class="ios-more-btn dropdown-toggle" type="button" id="dropdownMenuButton${val.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow: none;">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right border-0" aria-labelledby="dropdownMenuButton${val.id}" style="border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.12); padding: 8px; min-width: 180px; margin-top: 8px;">
+                                        <a class="dropdown-item presentSongBtn" href="#" data-songid="${val.id}" data-all_songsid="${all_songsid}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
+                                            <i class="fas fa-play text-primary mr-2" style="width: 20px;"></i> Present
+                                        </a>
+                                        <a class="dropdown-item scheduleSongBtn" href="#" data-songid="${val.id}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
+                                            <i class="fas fa-clock text-warning mr-2" style="width: 20px;"></i> Schedule
+                                        </a>
+                                        <div class="dropdown-divider my-1"></div>
+                                        <a class="dropdown-item editSongBtn" href="#" data-songid="${val.id}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
+                                            <i class="fas fa-edit text-info mr-2" style="width: 20px;"></i> Edit
+                                        </a>
                                     </div>
                                 </div>
                             </div>`;
-                            tbody += iosCard;
+                            tbody += iosRow;
                         });
+                        tbody += `</div>`;
                         $('#song_tbody').append(tbody);
                         $('#songlistcontent').show();
                         $('.presentSongBtn').on('click', function (e) {
