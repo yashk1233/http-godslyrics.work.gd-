@@ -147,35 +147,84 @@
 
     var data = JSON.parse(document.getElementById("songData").value);
 
-    console.log(data[0]);
-    // $('.songContent').html(data[0]);
-    $('.songParaContent').html('<pre class="margin-zero">' + data[0] + '</pre>');
-
     var paraCount = 0;
     var totalParaCount = data.length;
+    var customFontSize = null; // Store user's pinched font size
+
+    function renderPara(index) {
+        let styleAttr = customFontSize ? `style="font-size: ${customFontSize}px !important;"` : '';
+        $('.songParaContent').html('<pre class="margin-zero" ' + styleAttr + '>' + data[index] + '</pre>');
+    }
+
+    renderPara(paraCount);
 
     $('.left').on('click', function () {
-
         if (paraCount >= 1) {
-            $('.songParaContent').html('');
             paraCount--;
-            $('.songParaContent').html('<pre class="margin-zero">' + data[paraCount] + '</pre>');
-            // $('.songParaContent').html(data[paraCount]);
-
-
+            renderPara(paraCount);
         }
-        // paraCount 
-
     });
+
     $('.right').on('click', function () {
         if (paraCount < (totalParaCount - 1)) {
-            $('.songParaContent').html('');
             paraCount++;
-
-            $('.songParaContent').html('<pre class="margin-zero">' + data[paraCount] + '</pre>');
-
+            renderPara(paraCount);
         }
+    });
 
+    // --- Pinch to Zoom Font Logic ---
+    let initialDistance = null;
+    let initialFontSize = null;
+    const mainElement = document.querySelector('.main');
+
+    mainElement.addEventListener('touchstart', function(e) {
+        if (e.touches.length === 2) {
+            // Calculate starting distance between two fingers
+            initialDistance = Math.hypot(
+                e.touches[0].pageX - e.touches[1].pageX,
+                e.touches[0].pageY - e.touches[1].pageY
+            );
+            const preElement = document.querySelector('.songParaContent pre');
+            if (preElement) {
+                initialFontSize = parseFloat(window.getComputedStyle(preElement).fontSize);
+            }
+        }
+    }, {passive: false});
+
+    mainElement.addEventListener('touchmove', function(e) {
+        if (e.touches.length === 2) {
+            e.preventDefault(); // Prevent native zoom/scroll
+
+            if (initialDistance === null || initialFontSize === null) return;
+
+            // Calculate new distance between fingers
+            let currentDistance = Math.hypot(
+                e.touches[0].pageX - e.touches[1].pageX,
+                e.touches[0].pageY - e.touches[1].pageY
+            );
+
+            // Calculate scale ratio
+            let scaleFactor = currentDistance / initialDistance;
+            let newFontSize = initialFontSize * scaleFactor;
+
+            // Limit bounds to avoid text becoming invisible or gigantic
+            if (newFontSize < 16) newFontSize = 16;
+            if (newFontSize > 250) newFontSize = 250;
+
+            customFontSize = newFontSize; // Persist for next slide
+
+            const preElement = document.querySelector('.songParaContent pre');
+            if (preElement) {
+                preElement.style.setProperty('font-size', customFontSize + 'px', 'important');
+            }
+        }
+    }, {passive: false});
+
+    mainElement.addEventListener('touchend', function(e) {
+        if (e.touches.length < 2) {
+            initialDistance = null;
+            initialFontSize = null;
+        }
     });
 
     // $('.right').dblclick(function(){
