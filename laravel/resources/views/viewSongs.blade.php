@@ -78,10 +78,8 @@
                             <thead>
                                 <tr>
                                     <!-- <th>Sr.No</th> -->
-                                    <th>Song Name</th>
-                                    <th style="width: 40px">Present</th>
-                                    <th style="width: 40px">Schedule</th>
-                                    <th style="width: 40px">Edit</th>
+                                    <th style="white-space: normal; width: 100%;">Song Name</th>
+                                    <th style="white-space: nowrap;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="song_tbody">
@@ -142,20 +140,25 @@
                     success: function (data) {
                         data = data.msg;
                         tbody = ``;
+                        var all_songsid = data.map(function(val) { return val.id; }).join(',');
+                        
                         $.each(data, function (key, val) {
                             tbody += `<tr>`;
                             // tbody += `<td>${key + 1}</td>`;
-                            tbody += `<td>${val.song_title}</td>`;
-                            tbody += `<td><button  style="width: auto;" data-songid=${val.id} type="button" class=" presentSongBtn btn btn-primary btn-block"><i class="fas fa-play"></i></button></td>`;
-                            tbody += `<td><button  style="width: auto;" data-songid=${val.id} type="button" class=" scheduleSongBtn btn btn-success btn-block"><i class="fas fa-clock"></i></button></td>`;
-                            tbody += `<td><button  style="width: auto;" data-songid=${val.id} type="button" class=" editSongBtn btn btn-info btn-block"><i class="fas fa-edit"></i></button></td>`;
+                            tbody += `<td style="white-space: normal;">${val.song_title}</td>`;
+                            tbody += `<td style="white-space: nowrap;">
+                                <button data-songid=${val.id} data-all_songsid="${all_songsid}" type="button" class="presentSongBtn btn btn-primary btn-sm"><i class="fas fa-play"></i></button>
+                                <button data-songid=${val.id} type="button" class="scheduleSongBtn btn btn-success btn-sm"><i class="fas fa-clock"></i></button>
+                                <button data-songid=${val.id} type="button" class="editSongBtn btn btn-info btn-sm"><i class="fas fa-edit"></i></button>
+                            </td>`;
                             tbody += `</tr>`;
                         });
                         $('#song_tbody').append(tbody);
                         $('#songlistcontent').show();
                         $('.presentSongBtn').on('click', function () {
                             var songid = $(this).data("songid");
-                            var route = "{{ url('present-song') }}/" + songid;
+                            var all_songsid = $(this).data("all_songsid");
+                            var route = "{{ url('present-song') }}/" + songid + "/" + all_songsid;
                             window.open(route, '_blank');
     
                         });
