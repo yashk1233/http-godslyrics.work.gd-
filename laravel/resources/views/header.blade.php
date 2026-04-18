@@ -231,6 +231,11 @@
         margin-bottom: 4px;
     }
     
+    /* Hide Dropdown Toggle Caret */
+    .dropdown-toggle::after {
+        display: none !important;
+    }
+    
     /* iOS Sidebar Styles */
     .main-sidebar {
         background-color: #ffffff !important;
@@ -577,36 +582,52 @@
                with font-awesome or any other icon font library -->
 
             <li class="nav-item">
-              <a href="{{url('create-new-song')}}" class="nav-link">
-                <i class="nav-icon fas fa-edit"></i>
+              <a href="{{url('/')}}" class="nav-link">
+                <i class="nav-icon fas fa-home"></i>
                 <p>
-                  Create New Song
+                  Home
                 </p>
               </a>
             </li>
             <li class="nav-item">
               <a href="{{url('view-songs')}}" class="nav-link">
-                <i class="nav-icon far fa-image"></i>
+                <i class="nav-icon fas fa-music"></i>
                 <p>
-                  Songs
+                  Songs library
                 </p>
               </a>
             </li>
             <li class="nav-item">
               <a href="{{url('list-schedule-song')}}" class="nav-link">
-                <i class="nav-icon far fa-image"></i>
+                <i class="nav-icon fas fa-list"></i>
                 <p>
-                  Schedueled Songs
+                  Scheduled Songs
                 </p>
               </a>
             </li>
+            
             <li class="nav-item">
-              <a href="{{url('manage-backgrounds')}}" class="nav-link">
-                <i class="nav-icon fas fa-image"></i>
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-cogs"></i>
                 <p>
-                  Manage Backgrounds
+                  Settings
+                  <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{{url('create-new-song')}}" class="nav-link">
+                    <i class="fas fa-plus nav-icon" style="font-size: 0.9rem; margin-left: 5px;"></i>
+                    <p>Create New Song</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{url('manage-backgrounds')}}" class="nav-link">
+                    <i class="fas fa-image nav-icon" style="font-size: 0.9rem; margin-left: 5px;"></i>
+                    <p>Manage Backgrounds</p>
+                  </a>
+                </li>
+              </ul>
             </li>
            
           </ul>

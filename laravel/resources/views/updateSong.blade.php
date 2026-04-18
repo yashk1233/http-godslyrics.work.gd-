@@ -137,8 +137,7 @@
 </div>
 @include('footer')
 
-<!-- Bootstrap 4 -->
-<script src='{{asset("plugins/bootstrap/js/bootstrap.bundle.min.js")}}'></script>
+
 <!-- jquery-validation -->
 <script src='{{asset("plugins/jquery-validation/jquery.validate.min.js")}}'></script>
 <script src='{{asset("plugins/jquery-validation/additional-methods.min.js")}}'></script>

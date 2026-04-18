@@ -73,13 +73,11 @@
 </div>
 @include('footer')
 
-<!-- Bootstrap 4 -->
-<script src='{{asset("plugins/bootstrap/js/bootstrap.bundle.min.js")}}'></script>
+
 <!-- jquery-validation -->
 <script src='{{asset("plugins/jquery-validation/jquery.validate.min.js")}}'></script>
 <script src='{{asset("plugins/jquery-validation/additional-methods.min.js")}}'></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
 
 
 
@@ -95,7 +93,14 @@
 
         $('.select2').select2({
             minimumResultsForSearch: Infinity
+        }).on('select2:opening select2:closing', function( event ) {
+            var $searchfield = $(this).parent().find('.select2-search__field');
+            $searchfield.prop('disabled', true);
         });
+        
+        // Force readonly on any existing search fields to prevent mobile keyboard
+        $('.select2-search__field').prop('readonly', true);
+
         $('#category').on('change', function () {
             $('#language').val('').trigger('change');
 
@@ -124,7 +129,7 @@
                                 <div class="ios-card-header" style="margin-bottom: 0;">
                                     <h5 class="ios-card-title text-truncate" style="flex:1; margin-right: 10px; min-width: 0;">${(key+1)+'. '+val.song_title}</h5>
                                     <div class="dropdown">
-                                        <button class="ios-btn-small bg-light text-dark" type="button" id="dropdownMenuButton${val.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow: none;">
+                                        <button class="ios-btn-small bg-light text-dark dropdown-toggle" type="button" id="dropdownMenuButton${val.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow: none;">
                                             <i class="fas fa-ellipsis-v"></i>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-right border-0" aria-labelledby="dropdownMenuButton${val.id}" style="border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 8px;">
@@ -196,7 +201,7 @@
     });
 
     $(document).ready(function () {
-        $('body .nav-item').on('click', function () {
+        $('body .nav-item:not(:has(.nav-treeview))').on('click', function () {
 
             if ($('body').hasClass('sidebar-collapse')) {
 
@@ -212,4 +217,4 @@
 
     });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+

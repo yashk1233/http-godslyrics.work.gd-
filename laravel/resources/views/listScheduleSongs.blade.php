@@ -117,13 +117,11 @@
 </div>
 @include('footer')
 
-<!-- Bootstrap 4 -->
-<script src='{{asset("plugins/bootstrap/js/bootstrap.bundle.min.js")}}'></script>
+
 <!-- jquery-validation -->
 <script src='{{asset("plugins/jquery-validation/jquery.validate.min.js")}}'></script>
 <script src='{{asset("plugins/jquery-validation/additional-methods.min.js")}}'></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
 
 
 
@@ -161,7 +159,7 @@
                         <i class="fas fa-play"></i>
                     </button>
                     <div class="dropdown">
-                        <button class="ios-btn-small bg-light text-dark" type="button" id="dropdownMenuButton${val.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow: none;">
+                        <button class="ios-btn-small bg-light text-dark dropdown-toggle" type="button" id="dropdownMenuButton${val.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow: none;">
                             <i class="fas fa-ellipsis-v"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right border-0" aria-labelledby="dropdownMenuButton${val.id}" style="border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 8px;">
@@ -249,7 +247,7 @@
     });
 
     $(document).ready(function () {
-        $('body .nav-item').on('click', function () {
+        $('body .nav-item:not(:has(.nav-treeview))').on('click', function () {
 
             if ($('body').hasClass('sidebar-collapse')) {
 
@@ -281,4 +279,3 @@
 
     });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
