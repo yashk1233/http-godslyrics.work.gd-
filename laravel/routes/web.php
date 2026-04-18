@@ -15,3 +15,10 @@ Route::post('/schedule-song', [App\Http\Controllers\AdminController::class, 'sch
 Route::post('/remove-schedule-song', [App\Http\Controllers\AdminController::class, 'removeScheduleSong']);
 Route::post('/remove-all-schedule-songs', [App\Http\Controllers\AdminController::class, 'removeAllScheduleSongs']);
 Route::get('/list-schedule-song',[App\Http\Controllers\AdminController::class,'listScheduleSong']);
+
+// Background Image Routes
+Route::get('/manage-backgrounds', [App\Http\Controllers\AdminController::class, 'manageBackgrounds']);
+Route::post('/upload-background', [App\Http\Controllers\AdminController::class, 'uploadBackground']);
+Route::post('/set-active-background', [App\Http\Controllers\AdminController::class, 'setActiveBackground']);
+Route::get('/delete-background/{id}', [App\Http\Controllers\AdminController::class, 'deleteBackground']);
+Route::post('/save-settings', [App\Http\Controllers\AdminController::class, 'saveSettings']);

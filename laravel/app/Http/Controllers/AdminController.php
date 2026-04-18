@@ -151,10 +151,11 @@ class AdminController extends Controller
 
         $usersDetails = DB::table('song_master')
                     ->join('song_mapping', 'song_mapping.song_id', '=', 'song_master.id')
-                    ->where('song_mapping.song_language_id', '=', $request->language)
-                    ->whereIn('song_mapping.song_category_id', $request->category)
+                    ->whereIn('song_mapping.song_language_id', (array) $request->language)
+                    ->whereIn('song_mapping.song_category_id', (array) $request->category)
                     ->select('song_master.*')
                     ->groupBy('song_master.id')
+                    ->orderBy('song_master.song_title', 'asc')
                     ->get();
 
 
@@ -171,10 +172,20 @@ class AdminController extends Controller
         ->get()
         ->toArray()[0];
 
-        // print_rr($songDetails);exit;
         $songPara = json_decode($songDetails->song_para);
-        // print_rr($songPara); 
-        return View('presentSong')->with('data',$songPara);
+        
+        $activeBg = \App\Models\BackgroundImage::where('is_active', 1)->first();
+        $bgUrl = $activeBg ? asset('storage/' . $activeBg->image_path) : asset("dist/img/gold_cross_bg.png");
+        
+        $defaultFontSize = \App\Models\Setting::where('key', 'default_font_size')->value('value') ?? '80';
+        $bgOpacity = \App\Models\Setting::where('key', 'bg_opacity')->value('value') ?? '0.6';
+        
+        return View('presentSong')->with([
+            'data' => $songPara, 
+            'bgUrl' => $bgUrl,
+            'defaultFontSize' => $defaultFontSize,
+            'bgOpacity' => $bgOpacity
+        ]);
     }
 
     public function scheduleSong(Request $request)
@@ -252,7 +263,12 @@ class AdminController extends Controller
         $selectedCategories = $songMapping->pluck('song_category_id')->toArray();
         $language = $songMapping->first()->song_language_id ?? null;
         
-        return view('updateSong')->with(compact('song', 'selectedCategories', 'language'));
+        $redirect_to = url()->previous();
+        if (str_contains($redirect_to, 'edit-song') || str_contains($redirect_to, 'update-song')) {
+            $redirect_to = '/view-songs'; // Fallback to avoid infinite loops if validation fails
+        }
+        
+        return view('updateSong')->with(compact('song', 'selectedCategories', 'language', 'redirect_to'));
     }
 
     public function updateSong(Request $request)
@@ -292,7 +308,76 @@ class AdminController extends Controller
         }
         SongMapping::insert($songMappingData);
         
-        return redirect('/view-songs')->with('response', 'Song updated successfully');
+        $redirect_to = $request->input('redirect_to', '/view-songs');
+        return redirect($redirect_to)->with('response', 'Song updated successfully');
+    }
+
+    public function manageBackgrounds()
+    {
+        $backgrounds = \App\Models\BackgroundImage::orderBy('id', 'desc')->get();
+        $settings = \App\Models\Setting::pluck('value', 'key')->toArray();
+        return view('manageBackgrounds')->with(compact('backgrounds', 'settings'));
+    }
+
+    public function saveSettings(Request $request)
+    {
+        // This method can be removed or kept as an alternate, but we'll remove it 
+        // to consolidate logic in uploadBackground.
+    }
+
+    public function uploadBackground(Request $request)
+    {
+        $request->validate([
+            'background_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'default_font_size' => 'nullable|numeric|min:20|max:250',
+            'bg_opacity' => 'nullable|numeric|min:0|max:1',
+        ]);
+
+        if ($request->hasFile('background_image')) {
+            $file = $request->file('background_image');
+            $extension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+            $fileName = time() . '_' . 'bg.' . $extension;
+            $filePath = $file->storeAs('backgrounds', $fileName, 'public');
+            
+            $is_active = \App\Models\BackgroundImage::count() == 0 ? 1 : 0;
+            
+            \App\Models\BackgroundImage::create([
+                'image_path' => $filePath,
+                'is_active' => $is_active
+            ]);
+        }
+
+        if ($request->has('default_font_size')) {
+            \App\Models\Setting::updateOrCreate(['key' => 'default_font_size'], ['value' => $request->default_font_size]);
+        }
+        
+        if ($request->has('bg_opacity')) {
+            \App\Models\Setting::updateOrCreate(['key' => 'bg_opacity'], ['value' => $request->bg_opacity]);
+        }
+        
+        return redirect('/manage-backgrounds')->with('response', 'Settings & Background updated successfully');
+    }
+
+    public function setActiveBackground(Request $request)
+    {
+        $bg_id = $request->input('bg_id');
+        \App\Models\BackgroundImage::query()->update(['is_active' => 0]);
+        \App\Models\BackgroundImage::where('id', $bg_id)->update(['is_active' => 1]);
+        
+        return response()->json(['message' => 'Background set successfully.']);
+    }
+
+    public function deleteBackground($id)
+    {
+        $bg = \App\Models\BackgroundImage::find($id);
+        if ($bg) {
+            $file_path = public_path('storage/' . $bg->image_path);
+            if (\Illuminate\Support\Facades\File::exists($file_path)) {
+                unlink($file_path);
+            }
+            $bg->delete();
+        }
+        return redirect('/manage-backgrounds')->with('response', 'Background deleted successfully');
     }
 }
     

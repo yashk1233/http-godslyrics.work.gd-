@@ -84,10 +84,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div id="songParaSection">
-                                            <div class="form-group">
+                                            <div class="form-group para-container position-relative">
                                                 <textarea class="form-control ios-input song_para" rows="4" name="song_para[0]"
-                                                    style=" margin-bottom: 20px; " placeholder="Enter ..."></textarea>
-
+                                                    style=" margin-bottom: 20px; padding-right: 40px;" placeholder="Enter ..."></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -154,14 +153,23 @@
             $('.custom-file-label').html(fileName);
         });
         $("#add_para").click(function () {
-            $('#songParaSection').append(`<div class="form-group"><textarea class="form-control ios-input song_para" rows="4" name="song_para[${paraCounter}]" style=" margin-bottom: 20px; " placeholder="Enter ..."></textarea></div>`);
+            $('#songParaSection').append(`
+                <div class="form-group para-container position-relative">
+                    <textarea class="form-control ios-input song_para" rows="4" name="song_para[${paraCounter}]" style=" margin-bottom: 20px; padding-right: 40px;" placeholder="Enter ..."></textarea>
+                    <button type="button" class="btn btn-sm btn-danger remove-para position-absolute" style="top: 10px; right: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"><i class="fas fa-times"></i></button>
+                </div>
+            `);
             paraCounter++;
             jQuery.validator.addClassRules('song_para', {
                 required: true /*,
                 other rules */
             });
+        });
 
-
+        $(document).on('click', '.remove-para', function() {
+            $(this).closest('.para-container').fadeOut(300, function() {
+                $(this).remove();
+            });
         });
         jQuery.validator.addClassRules('song_para', {
             required: true /*,

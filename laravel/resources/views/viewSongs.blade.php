@@ -50,9 +50,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Language</label>
-                                <select class="form-control select2" name="language" id="language"
+                                <select class="form-control select2" multiple="multiple" name="language[]" id="language"
                                     data-placeholder="Select Language" style="width: 100%;">
-                                    <option selected="selected" disabled value="">Select Language</option>
                                     <option value="1">Hindi</option>
                                     <option value="2">English</option>
                                     <option value="3">Marathi</option>
@@ -142,7 +141,7 @@
                         $('.presentSongBtn').on('click', function () {
                             var songid = $(this).data("songid");
                             var all_songsid = $(this).data("all_songsid");
-                            var route = "{{ url('present-song') }}/" + songid + "/" + all_songsid;
+                            var route = "{{ url('present-song') }}/" + songid;
                             window.open(route, '_blank');
     
                         });

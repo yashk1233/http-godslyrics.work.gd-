@@ -6,8 +6,8 @@
     <title>Present Song</title>
     <meta name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, orientation=landscape">
-    <!-- Google Fonts for Hindi (Mukta) and English (Poppins) -->
-    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@500;700;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts for Hindi and English -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@500;600;700&family=Noto+Sans+Devanagari:wght@500;700;800&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <!-- jQuery -->
@@ -46,8 +46,8 @@
     }
 
     .main {
-        /* A beautiful, warm, heavenly open Bible background */
-        background-image: linear-gradient(to bottom, rgba(20, 10, 5, 0.45), rgba(10, 5, 0, 0.85)), url('{{ asset("dist/img/bible_cross_bg.png") }}');
+        /* A beautiful, dynamically selected background with custom opacity */
+        background-image: linear-gradient(to bottom, rgba(0,0,0, {{ $bgOpacity }}), rgba(0,0,0, {{ min($bgOpacity + 0.3, 0.95) }})), url('{{ $bgUrl }}');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -69,10 +69,19 @@
         from { opacity: 0; transform: scale(0.95); }
         to { opacity: 1; transform: scale(1); }
     }
+    
+    @keyframes slideUpFadeIn {
+        0% { opacity: 0; transform: translateY(30px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-slide {
+        animation: slideUpFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
 
     .songParaContent pre {
-        font-family: 'Mukta', 'Poppins', sans-serif;
-        font-size: clamp(1.2rem, 10vmin, 3.5rem);
+        font-family: 'Noto Sans Devanagari', 'Hind', 'Poppins', sans-serif;
+        font-size: {{ $defaultFontSize }}px;
         font-weight: 700;
         color: #ffffff;
         white-space: pre-wrap;
@@ -153,7 +162,13 @@
 
     function renderPara(index) {
         let styleAttr = customFontSize ? `style="font-size: ${customFontSize}px !important;"` : '';
-        $('.songParaContent').html('<pre class="margin-zero" ' + styleAttr + '>' + data[index] + '</pre>');
+        let $content = $('.songParaContent');
+        
+        $content.removeClass('animate-slide');
+        void $content[0].offsetWidth; // trigger reflow to restart animation
+        
+        $content.html('<pre class="margin-zero" ' + styleAttr + '>' + data[index] + '</pre>');
+        $content.addClass('animate-slide');
     }
 
     renderPara(paraCount);

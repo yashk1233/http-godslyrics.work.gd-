@@ -1,11 +1,23 @@
 <!-- /.content-wrapper -->
-<!-- <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
+<footer class="main-footer d-none">
+</footer>
+
+<!-- iOS Style PIN Modal -->
+<div id="ios-pin-modal" class="ios-modal-overlay" style="display: none;">
+    <div class="ios-modal">
+        <div class="ios-modal-header">
+            <h4>Passcode Required</h4>
+            <p>Please enter passcode to proceed.</p>
+        </div>
+        <div class="ios-modal-body">
+            <input type="password" id="ios-pin-input" class="ios-pin-input" placeholder="Passcode" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+        </div>
+        <div class="ios-modal-footer">
+            <button type="button" class="ios-modal-btn" id="ios-pin-cancel">Cancel</button>
+            <button type="button" class="ios-modal-btn ios-modal-btn-confirm" id="ios-pin-confirm">OK</button>
+        </div>
     </div>
-  </footer> -->
+</div>
 
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
@@ -28,11 +40,51 @@
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button);
+
+    // Make the body fully scrollable on touch devices
+    document.addEventListener('touchstart', function() {}, {passive: true});
+
+    // Global PIN Modal Logic
+    let globalPinAction = null;
+
+    window.requirePin = function(actionCallback) {
+        globalPinAction = actionCallback;
+        $('#ios-pin-input').val('').removeClass('error');
+        $('#ios-pin-modal').show();
+        setTimeout(() => {
+            $('#ios-pin-modal').addClass('show');
+            $('#ios-pin-input').focus();
+        }, 10);
+    }
+
+    function hidePinModal() {
+        $('#ios-pin-modal').removeClass('show');
+        setTimeout(() => {
+            $('#ios-pin-modal').hide();
+        }, 200);
+    }
+
+    $('#ios-pin-cancel').on('click', hidePinModal);
+
+    $('#ios-pin-confirm').on('click', function() {
+        let pin = $('#ios-pin-input').val();
+        if (pin === '3399') {
+            hidePinModal();
+            if (globalPinAction) globalPinAction();
+        } else {
+            $('#ios-pin-input').addClass('error').val('');
+            setTimeout(() => $('#ios-pin-input').removeClass('error'), 400);
+        }
+    });
+
+    $('#ios-pin-input').on('keypress', function(e) {
+        if(e.which === 13) {
+            $('#ios-pin-confirm').click();
+        }
+    });
 </script>
 <!-- Bootstrap 4 -->
 <!-- <script src="../../"></script> -->
-<script src='{{asset("plugins/jquery/jquery.min.js")}}'></script>
-
 <script src='{{asset("plugins/bootstrap/js/bootstrap.bundle.min.js")}}'></script>
 <!-- ChartJS -->
 <!-- <script src='{{asset("plugins/chart.js/Chart.min.js")}}'></script> -->
@@ -61,7 +113,6 @@
 
 
 
-<script src='{{asset("plugins/jquery/jquery.min.js")}}'></script>
 <script src='{{asset("plugins/datatables/jquery.dataTables.min.js")}}'></script>
 <script src='{{asset("plugins/datatables-bs4/js/dataTables.bootstrap4.min.js")}}'></script>
 <script src='{{asset("plugins/datatables-responsive/js/dataTables.responsive.min.js")}}'></script>

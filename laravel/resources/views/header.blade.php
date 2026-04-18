@@ -148,6 +148,34 @@
         border-color: #007aff !important;
     }
     
+    /* Select2 Multi-Select Tags (iOS Style) */
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        background-color: #e5f1ff !important;
+        border: 1px solid #cce5ff !important;
+        border-radius: 12px !important;
+        color: #007aff !important;
+        font-weight: 500;
+        padding: 2px 10px !important;
+        margin-top: 6px !important;
+        display: flex !important;
+        align-items: center;
+        flex-direction: row-reverse;
+        box-shadow: none !important;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+        color: #007aff !important;
+        margin-right: 0 !important;
+        margin-left: 6px !important;
+        border: none !important;
+        font-weight: bold;
+        font-size: 1.1rem;
+        background: transparent !important;
+        padding: 0 !important;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+        color: #0056b3 !important;
+    }
+    
     /* Navbar & App Background */
     body, .content-wrapper {
         background-color: #f2f2f7 !important;
@@ -261,6 +289,100 @@
     }
     .nav-link[data-widget="pushmenu"] {
         color: #1c1c1e !important;
+    }
+    
+    /* iOS PIN Modal */
+    .ios-modal-overlay {
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px);
+        z-index: 9999; display: flex; align-items: center; justify-content: center;
+        opacity: 0; transition: opacity 0.2s ease;
+    }
+    .ios-modal-overlay.show { opacity: 1; }
+    .ios-modal {
+        background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);
+        width: 270px; border-radius: 14px; text-align: center;
+        overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        transform: scale(1.1); transition: transform 0.2s ease;
+    }
+    .ios-modal-overlay.show .ios-modal { transform: scale(1); }
+    .ios-modal-header { padding: 20px 15px 15px; }
+    .ios-modal-header h4 {
+        font-size: 17px; font-weight: 600; margin: 0 0 5px; color: #000;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .ios-modal-header p {
+        font-size: 13px; margin: 0; color: #000;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .ios-modal-body { padding: 0 15px 15px; }
+    .ios-pin-input {
+        width: 100%; background: #fff; border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 6px; padding: 6px; font-size: 16px; text-align: center; outline: none;
+    }
+    .ios-pin-input.error { animation: shake 0.4s; border-color: red; }
+    .ios-modal-footer { display: flex; border-top: 1px solid rgba(0,0,0,0.2); }
+    .ios-modal-btn {
+        flex: 1; background: transparent; border: none; padding: 12px;
+        font-size: 17px; color: #007aff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        cursor: pointer;
+    }
+    .ios-modal-btn:active { background: rgba(0,0,0,0.05); }
+    .ios-modal-btn-confirm { font-weight: 600; border-left: 1px solid rgba(0,0,0,0.2); }
+    @keyframes shake {
+        0%, 100% {transform: translateX(0);}
+        25% {transform: translateX(-5px);}
+        75% {transform: translateX(5px);}
+    }
+    
+    /* iOS Style Range Slider */
+    input[type=range].ios-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+      margin: 10px 0;
+    }
+    
+    input[type=range].ios-slider:focus {
+      outline: none;
+    }
+    
+    input[type=range].ios-slider::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 6px;
+      cursor: pointer;
+      background: #e5e5ea;
+      border-radius: 4px;
+    }
+    
+    input[type=range].ios-slider::-webkit-slider-thumb {
+      height: 28px;
+      width: 28px;
+      border-radius: 50%;
+      background: #ffffff;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -11px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15), 0 1px 1px rgba(0,0,0,0.16), 0 3px 1px rgba(0,0,0,0.1) inset;
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+    
+    input[type=range].ios-slider::-moz-range-track {
+      width: 100%;
+      height: 6px;
+      cursor: pointer;
+      background: #e5e5ea;
+      border-radius: 4px;
+    }
+    
+    input[type=range].ios-slider::-moz-range-thumb {
+      height: 28px;
+      width: 28px;
+      border-radius: 50%;
+      background: #ffffff;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15), 0 1px 1px rgba(0,0,0,0.16), 0 3px 1px rgba(0,0,0,0.1) inset;
+      border: 1px solid rgba(0,0,0,0.04);
     }
 </style>
 
@@ -475,6 +597,14 @@
                 <i class="nav-icon far fa-image"></i>
                 <p>
                   Schedueled Songs
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{url('manage-backgrounds')}}" class="nav-link">
+                <i class="nav-icon fas fa-image"></i>
+                <p>
+                  Manage Backgrounds
                 </p>
               </a>
             </li>
