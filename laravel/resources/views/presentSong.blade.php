@@ -72,7 +72,7 @@
 
     .songParaContent pre {
         font-family: 'Mukta', 'Poppins', sans-serif;
-        font-size: clamp(1.2rem, 6vmin, 3.5rem);
+        font-size: clamp(1.2rem, 10vmin, 3.5rem);
         font-weight: 700;
         color: #ffffff;
         white-space: pre-wrap;
