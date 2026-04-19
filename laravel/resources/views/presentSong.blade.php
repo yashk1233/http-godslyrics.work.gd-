@@ -135,6 +135,8 @@
         font-size: 1.2rem;
         cursor: pointer;
         transition: all 0.2s ease;
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
     }
     
     .fab:active {
@@ -180,6 +182,8 @@
         gap: 12px;
         cursor: pointer;
         transition: background-color 0.2s;
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
     }
 
     .fab-item i {
