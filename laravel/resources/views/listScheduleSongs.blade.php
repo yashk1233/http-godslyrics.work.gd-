@@ -81,6 +81,47 @@
         background: #e5e5ea;
         transform: scale(0.95);
     }
+    .ios-more-btn.dropdown-toggle::after {
+        display: none;
+    }
+    
+    .ios-dark-dropdown {
+        border-radius: 14px !important;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3) !important;
+        padding: 0 !important;
+        min-width: 200px !important;
+        margin-top: 8px !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        background: rgba(28, 28, 30, 0.95) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        overflow: hidden !important;
+    }
+    .ios-dark-item {
+        padding: 16px 20px !important;
+        font-weight: 500 !important;
+        font-size: 1rem !important;
+        color: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        transition: background-color 0.2s !important;
+        background: transparent !important;
+    }
+    .ios-dark-item:last-child {
+        border-bottom: none !important;
+    }
+    .ios-dark-item:hover, .ios-dark-item:active {
+        background-color: rgba(255,255,255,0.15) !important;
+        color: #ffffff !important;
+    }
+    .ios-dark-item i {
+        font-size: 1.1rem !important;
+        width: 28px !important;
+        text-align: left;
+        margin-right: 12px !important;
+        color: #ffffff !important;
+    }
 </style>
 
 <div class="content-wrapper">
@@ -183,16 +224,15 @@
                         <button class="ios-more-btn dropdown-toggle" type="button" id="dropdownMenuButton${val.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow: none;">
                             <i class="fas fa-ellipsis-h"></i>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right border-0" aria-labelledby="dropdownMenuButton${val.id}" style="border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.12); padding: 8px; margin-top: 8px;">
-                            <a class="dropdown-item presentSongBtn" href="#" data-songid="${val.id}" data-all_songsid="${str}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
-                                <i class="fas fa-external-link-alt text-primary mr-2" style="width: 20px;"></i> Present
+                        <div class="dropdown-menu dropdown-menu-right ios-dark-dropdown" aria-labelledby="dropdownMenuButton${val.id}">
+                            <a class="dropdown-item ios-dark-item presentSongBtn" href="#" data-songid="${val.id}" data-all_songsid="${str}">
+                                <i class="fas fa-step-forward"></i> Present
                             </a>
-                            <a class="dropdown-item editSongBtn" href="#" data-songid="${val.id}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
-                                <i class="fas fa-edit text-info mr-2" style="width: 20px;"></i> Edit
+                            <a class="dropdown-item ios-dark-item editSongBtn" href="#" data-songid="${val.id}">
+                                <i class="fas fa-edit"></i> Edit
                             </a>
-                            <div class="dropdown-divider my-1"></div>
-                            <a class="dropdown-item removeSongBtn" href="#" data-id="${val.sid}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
-                                <i class="fas fa-trash-alt text-danger mr-2" style="width: 20px;"></i> Remove
+                            <a class="dropdown-item ios-dark-item removeSongBtn" href="#" data-id="${val.sid}">
+                                <i class="fas fa-trash-alt"></i> Remove
                             </a>
                         </div>
                     </div>
@@ -238,8 +278,9 @@
                     sid: id  // Example data
                 },
                 success: function (response) {
-                    alert(response.message);
-                    location.reload(); // Show response message
+                    alert(response.message, function() {
+                        location.reload();
+                    });
                 },
                 error: function (xhr) {
                     console.log(xhr.responseText);
@@ -253,7 +294,7 @@
     
     $('#removeAllSongsBtn').on('click', function () {
         requirePin(function() {
-            if(confirm('Are you sure you want to remove ALL scheduled songs?')) {
+            iosConfirm('Are you sure you want to remove ALL scheduled songs?', function() {
                 $.ajax({
                     url: "{{ url('remove-all-schedule-songs') }}",
                     type: "POST",
@@ -261,14 +302,15 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function (response) {
-                        alert(response.message);
-                        location.reload();
+                        alert(response.message, function() {
+                            location.reload();
+                        });
                     },
                     error: function (xhr) {
                         console.log(xhr.responseText);
                     }
                 });
-            }
+            });
         });
     });
     

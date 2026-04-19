@@ -99,6 +99,47 @@
         background: #e5e5ea;
         transform: scale(0.95);
     }
+    .ios-more-btn.dropdown-toggle::after {
+        display: none;
+    }
+    
+    .ios-dark-dropdown {
+        border-radius: 14px !important;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3) !important;
+        padding: 0 !important;
+        min-width: 200px !important;
+        margin-top: 8px !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        background: rgba(28, 28, 30, 0.95) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        overflow: hidden !important;
+    }
+    .ios-dark-item {
+        padding: 16px 20px !important;
+        font-weight: 500 !important;
+        font-size: 1rem !important;
+        color: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        transition: background-color 0.2s !important;
+        background: transparent !important;
+    }
+    .ios-dark-item:last-child {
+        border-bottom: none !important;
+    }
+    .ios-dark-item:hover, .ios-dark-item:active {
+        background-color: rgba(255,255,255,0.15) !important;
+        color: #ffffff !important;
+    }
+    .ios-dark-item i {
+        font-size: 1.1rem !important;
+        width: 28px !important;
+        text-align: left;
+        margin-right: 12px !important;
+        color: #ffffff !important;
+    }
 </style>
 
 <div class="content-wrapper">
@@ -232,16 +273,15 @@
                                     <button class="ios-more-btn dropdown-toggle" type="button" id="dropdownMenuButton${val.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="box-shadow: none;">
                                         <i class="fas fa-ellipsis-h"></i>
                                     </button>
-                                    <div class="dropdown-menu dropdown-menu-right border-0" aria-labelledby="dropdownMenuButton${val.id}" style="border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.12); padding: 8px; min-width: 180px; margin-top: 8px;">
-                                        <a class="dropdown-item presentSongBtn" href="#" data-songid="${val.id}" data-all_songsid="${all_songsid}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
-                                            <i class="fas fa-play text-primary mr-2" style="width: 20px;"></i> Present
+                                    <div class="dropdown-menu dropdown-menu-right ios-dark-dropdown" aria-labelledby="dropdownMenuButton${val.id}">
+                                        <a class="dropdown-item ios-dark-item presentSongBtn" href="#" data-songid="${val.id}" data-all_songsid="${all_songsid}">
+                                            <i class="fas fa-step-forward"></i> Present
                                         </a>
-                                        <a class="dropdown-item scheduleSongBtn" href="#" data-songid="${val.id}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
-                                            <i class="fas fa-clock text-warning mr-2" style="width: 20px;"></i> Schedule
+                                        <a class="dropdown-item ios-dark-item scheduleSongBtn" href="#" data-songid="${val.id}">
+                                            <i class="fas fa-clock"></i> Schedule
                                         </a>
-                                        <div class="dropdown-divider my-1"></div>
-                                        <a class="dropdown-item editSongBtn" href="#" data-songid="${val.id}" style="border-radius: 8px; padding: 10px 15px; font-weight: 500;">
-                                            <i class="fas fa-edit text-info mr-2" style="width: 20px;"></i> Edit
+                                        <a class="dropdown-item ios-dark-item editSongBtn" href="#" data-songid="${val.id}">
+                                            <i class="fas fa-edit"></i> Edit
                                         </a>
                                     </div>
                                 </div>

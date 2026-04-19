@@ -2,7 +2,7 @@
 <footer class="main-footer d-none">
 </footer>
 
-<!-- iOS Style Confirm Modal -->
+<!-- iOS Style Confirm Modal (Restricted Action) -->
 <div id="ios-confirm-modal" class="ios-modal-overlay" style="display: none;">
     <div class="ios-modal">
         <div class="ios-modal-header" style="padding-bottom: 15px;">
@@ -12,6 +12,20 @@
         <div class="ios-modal-footer">
             <button type="button" class="ios-modal-btn" id="ios-confirm-cancel">Cancel</button>
             <button type="button" class="ios-modal-btn ios-modal-btn-confirm" id="ios-confirm-proceed" style="color: #ff3b30;">Proceed</button>
+        </div>
+    </div>
+</div>
+
+<!-- iOS Style General Confirm Modal -->
+<div id="ios-general-confirm-modal" class="ios-modal-overlay" style="display: none; z-index: 9999;">
+    <div class="ios-modal" style="width: 280px; text-align: center;">
+        <div class="ios-modal-header" style="padding: 20px 15px 15px; border-bottom: none;">
+            <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 5px;">Confirmation</h4>
+            <p id="ios-general-confirm-message" style="font-size: 0.95rem; color: #1c1c1e; margin: 0; line-height: 1.4;"></p>
+        </div>
+        <div class="ios-modal-footer" style="padding: 0; border-top: 1px solid #e5e5ea; display: flex;">
+            <button type="button" class="ios-modal-btn" id="ios-general-confirm-cancel" style="flex: 1; padding: 12px; color: #007aff; font-weight: 400; border: none; border-right: 1px solid #e5e5ea; background: transparent; font-size: 1.05rem; cursor: pointer;">Cancel</button>
+            <button type="button" class="ios-modal-btn ios-modal-btn-confirm" id="ios-general-confirm-proceed" style="flex: 1; padding: 12px; color: #ff3b30; font-weight: 600; border: none; background: transparent; font-size: 1.05rem; cursor: pointer;">Confirm</button>
         </div>
     </div>
 </div>
@@ -72,20 +86,49 @@
     document.addEventListener('touchstart', function() {}, {passive: true});
 
     // Override Default Alert
-    window.alert = function(message) {
+    window.alert = function(message, callback) {
         $('#ios-alert-message').text(message);
         $('#ios-alert-modal').show();
         setTimeout(() => {
             $('#ios-alert-modal').addClass('show');
         }, 10);
+        
+        $('#ios-alert-ok').off('click').on('click', function() {
+            $('#ios-alert-modal').removeClass('show');
+            setTimeout(() => {
+                $('#ios-alert-modal').hide();
+                if(callback && typeof callback === 'function') {
+                    callback();
+                }
+            }, 200);
+        });
     };
 
-    $('#ios-alert-ok').on('click', function() {
-        $('#ios-alert-modal').removeClass('show');
+    // General Confirm
+    window.iosConfirm = function(message, callback) {
+        $('#ios-general-confirm-message').text(message);
+        $('#ios-general-confirm-modal').show();
         setTimeout(() => {
-            $('#ios-alert-modal').hide();
-        }, 200);
-    });
+            $('#ios-general-confirm-modal').addClass('show');
+        }, 10);
+
+        $('#ios-general-confirm-cancel').off('click').on('click', function() {
+            $('#ios-general-confirm-modal').removeClass('show');
+            setTimeout(() => {
+                $('#ios-general-confirm-modal').hide();
+            }, 200);
+        });
+
+        $('#ios-general-confirm-proceed').off('click').on('click', function() {
+            $('#ios-general-confirm-modal').removeClass('show');
+            setTimeout(() => {
+                $('#ios-general-confirm-modal').hide();
+                if(callback && typeof callback === 'function') {
+                    callback();
+                }
+            }, 200);
+        });
+    };
 
     // Global PIN Modal Logic
     let globalPinAction = null;
