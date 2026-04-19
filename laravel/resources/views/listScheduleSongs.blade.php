@@ -160,7 +160,7 @@
         return array.map(item => item[column]);
     };
     var songs_id = arrayColumn(data, 'id');
-    var str = songs_id.join([songs_id = ',']);
+    var str = songs_id.join(',');
    
     tbody = `<div class="ios-list-group">`;
     $.each(data, function (key, val) {
@@ -217,8 +217,11 @@
     $('.presentSongBtn').on('click', function () {
 
         var songid = $(this).data("songid");
-        // var all_songsid = $(this).data("all_songsid");
+        var all_songsid = $(this).data("all_songsid");
         var route = "{{ url('present-song') }}/" + songid;
+        if (all_songsid) {
+            route += "/" + all_songsid;
+        }
         window.open(route, '_blank');
 
     });

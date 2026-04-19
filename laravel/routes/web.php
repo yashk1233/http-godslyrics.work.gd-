@@ -8,7 +8,7 @@ Route::get('/create-new-song',[App\Http\Controllers\AdminController::class,'crea
 Route::get('/view-songs',[App\Http\Controllers\AdminController::class,'ViewSongs']);
 Route::post('/save-new-song',[App\Http\Controllers\AdminController::class,'SaveNewSong']);
 Route::post('/get-songs-data',[App\Http\Controllers\AdminController::class,'getSongsData']);
-Route::get('/present-song/{id}',[App\Http\Controllers\AdminController::class,'presentSong']);
+Route::get('/present-song/{id}/{schedules?}',[App\Http\Controllers\AdminController::class,'presentSong']);
 Route::get('/edit-song/{id}',[App\Http\Controllers\AdminController::class,'editSong']);
 Route::post('/update-song',[App\Http\Controllers\AdminController::class,'updateSong']);
 Route::post('/schedule-song', [App\Http\Controllers\AdminController::class, 'scheduleSong']);

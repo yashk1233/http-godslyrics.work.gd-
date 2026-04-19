@@ -108,6 +108,94 @@
     .right:active ~ .right-hint { color: rgba(255,255,255,0.8); transform: translateY(-50%) scale(0.9); }
     .left-hint { left: 40px; }
     .right-hint { right: 40px; }
+
+    /* Floating Action Button */
+    .fab-container {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .fab {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.15); /* Very light visibility */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .fab:active {
+        transform: scale(0.9);
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .fab-menu {
+        display: none;
+        flex-direction: column;
+        background-color: rgba(20, 20, 20, 0.9);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        margin-top: 12px;
+        overflow: hidden;
+        width: max-content;
+        min-width: 180px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        transform-origin: top right;
+        animation: scaleIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .fab-menu.active {
+        display: flex;
+    }
+
+    @keyframes scaleIn {
+        from { opacity: 0; transform: scale(0.8); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    .fab-item {
+        padding: 14px 18px;
+        color: #e0e0e0;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 500;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .fab-item i {
+        font-size: 1.1rem;
+        width: 20px;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .fab-item:last-child {
+        border-bottom: none;
+    }
+
+    .fab-item:active {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
 </style>
 
 <body>
@@ -122,6 +210,20 @@
         <div class="songContent">
             <div class="songParaContent"></div>
         </div>
+
+        <div class="fab-container">
+            <div class="fab" id="fabButton">
+                <i class="fas fa-ellipsis-h"></i>
+            </div>
+            <div class="fab-menu" id="fabMenu">
+                <div class="fab-item" id="btnNextSong">
+                    <i class="fas fa-step-forward"></i> Present Next Song
+                </div>
+                <div class="fab-item" id="btnCloseWindow">
+                    <i class="fas fa-times"></i> Close Window
+                </div>
+            </div>
+        </div>
     </div>
     <input type="hidden" id="songData" value='@json($data)'>
 
@@ -134,6 +236,59 @@
 
     $(document).ready(function () {
        
+        $('#fabButton').on('click', function(e) {
+            e.stopPropagation();
+            $('#fabMenu').toggleClass('active');
+        });
+
+        // Prevent click from propagating when clicking menu items
+        $('.fab-menu').on('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Close menu when clicking outside
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.fab-container').length) {
+                $('#fabMenu').removeClass('active');
+            }
+        });
+
+        $('#btnNextSong').on('click', function(e) {
+            e.stopPropagation();
+            $('#fabMenu').removeClass('active');
+            
+            var paramString = "{{ request()->segment(3) }}"; 
+            if (paramString) {
+                let paramArray = paramString.split(','); 
+                let index = paramArray.indexOf("{{ request()->segment(2) }}");
+
+                if (index !== -1 && index + 1 < paramArray.length) {
+                    var route = "{{ url('present-song') }}/" + paramArray[index + 1] + '/' + paramString;
+                    window.location.href = route; 
+                } else {
+                    alert("You are at the last scheduled song.");
+                }
+            } else {
+                alert("This song is not part of a schedule.");
+            }
+        });
+
+        $('#btnCloseWindow').on('click', function(e) {
+            e.stopPropagation();
+            $('#fabMenu').removeClass('active');
+            
+            if (window.history.length > 1) {
+                window.close(); // Try closing first
+                setTimeout(() => {
+                    window.history.back();
+                }, 100);
+            } else {
+                window.close();
+                setTimeout(() => {
+                    window.location.href = "{{ url('/') }}";
+                }, 100);
+            }
+        });
         
     });
 
