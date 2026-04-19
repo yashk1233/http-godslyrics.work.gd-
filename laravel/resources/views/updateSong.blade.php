@@ -5,6 +5,28 @@
     .select2-container--default .select2-selection--single {
         padding-bottom: 29px;
     }
+    .para-container {
+        transition: all 0.3s ease;
+    }
+    .song_para {
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid #f2f2f7 !important;
+        background: #f9f9f9 !important;
+        box-shadow: inset 0 1px 2px rgb(0 0 0 / 11%) !important;
+    }
+    .song_para:focus {
+        background: #ffffff !important;
+        border-color: #007aff !important;
+        box-shadow: 0 10px 25px rgba(0, 122, 255, 0.08), 0 0 0 4px rgba(0, 122, 255, 0.1) !important;
+        transform: translateY(-4px) scale(1.01);
+        z-index: 5;
+    }
+    .remove-para {
+        transition: all 0.2s ease;
+    }
+    .remove-para:active {
+        transform: scale(0.8);
+    }
 </style>
 
 <div class="content-wrapper">
@@ -83,15 +105,15 @@
                                         @if(count($paragraphs) > 0)
                                             @foreach($paragraphs as $index => $para)
                                                 <div class="form-group para-container position-relative" style="margin-bottom: 20px;">
-                                                    <textarea class="form-control ios-input song_para" rows="4" name="song_para[{{ $index }}]" style="background: #f9f9f9; border: 1px solid #f2f2f7; border-radius: 16px; padding: 18px; font-size: 1.1rem; line-height: 1.6; resize: vertical; width: 100%; box-sizing: border-box; font-weight: 400; color: #1c1c1e;" placeholder="Enter paragraph text...">{{ $para }}</textarea>
+                                                    <textarea class="form-control ios-input song_para" rows="4" name="song_para[{{ $index }}]" style="border-radius: 18px; padding: 18px; font-size: 1.15rem; line-height: 1.6; resize: vertical; width: 100%; box-sizing: border-box; font-weight: 400; color: #1c1c1e;" placeholder="Enter paragraph text...">{{ $para }}</textarea>
                                                     @if($index > 0)
-                                                    <button type="button" class="btn btn-sm btn-danger remove-para position-absolute" style="top: -10px; right: -10px; z-index: 10; border-radius: 50%; width: 28px; height: 28px; padding: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(255,59,48,0.3); border: none; background: #ff3b30;"><i class="fas fa-times" style="font-size: 0.8rem;"></i></button>
+                                                    <button type="button" class="btn btn-sm btn-danger remove-para position-absolute" style="top: -8px; right: -8px; z-index: 10; border-radius: 50%; width: 28px; height: 28px; padding: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(255,59,48,0.3); border: none; background: #ff3b30;"><i class="fas fa-times" style="font-size: 0.8rem;"></i></button>
                                                     @endif
                                                 </div>
                                             @endforeach
                                         @else
                                             <div class="form-group para-container position-relative" style="margin-bottom: 20px;">
-                                                <textarea class="form-control ios-input song_para" rows="4" name="song_para[0]" style="background: #f9f9f9; border: 1px solid #f2f2f7; border-radius: 16px; padding: 18px; font-size: 1.1rem; line-height: 1.6; resize: vertical; width: 100%; box-sizing: border-box; font-weight: 400; color: #1c1c1e;" placeholder="Enter paragraph text..."></textarea>
+                                                <textarea class="form-control ios-input song_para" rows="4" name="song_para[0]" style="border-radius: 18px; padding: 18px; font-size: 1.15rem; line-height: 1.6; resize: vertical; width: 100%; box-sizing: border-box; font-weight: 400; color: #1c1c1e;" placeholder="Enter paragraph text..."></textarea>
                                             </div>
                                         @endif
                                     </div>
@@ -153,8 +175,8 @@
         $("#add_para").click(function () {
             $('#songParaSection').append(`
                 <div class="form-group para-container position-relative" style="margin-bottom: 20px;">
-                    <textarea class="form-control ios-input song_para" rows="4" name="song_para[${paraCounter}]" style="background: #f9f9f9; border: 1px solid #f2f2f7; border-radius: 16px; padding: 18px; font-size: 1.1rem; line-height: 1.6; resize: vertical; width: 100%; box-sizing: border-box; font-weight: 400; color: #1c1c1e;" placeholder="Enter paragraph text..."></textarea>
-                    <button type="button" class="btn btn-sm btn-danger remove-para position-absolute" style="top: -10px; right: -10px; z-index: 10; border-radius: 50%; width: 28px; height: 28px; padding: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(255,59,48,0.3); border: none; background: #ff3b30;"><i class="fas fa-times" style="font-size: 0.8rem;"></i></button>
+                    <textarea class="form-control ios-input song_para" rows="4" name="song_para[${paraCounter}]" style="border-radius: 18px; padding: 18px; font-size: 1.15rem; line-height: 1.6; resize: vertical; width: 100%; box-sizing: border-box; font-weight: 400; color: #1c1c1e;" placeholder="Enter paragraph text..."></textarea>
+                    <button type="button" class="btn btn-sm btn-danger remove-para position-absolute" style="top: -8px; right: -8px; z-index: 10; border-radius: 50%; width: 28px; height: 28px; padding: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(255,59,48,0.3); border: none; background: #ff3b30;"><i class="fas fa-times" style="font-size: 0.8rem;"></i></button>
                 </div>
             `);
             paraCounter++;
