@@ -9,16 +9,18 @@
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <div class="content-header" style="padding-bottom: 0;">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Create New Song</h1>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
-                        <li class="breadcrumb-item active">Create New Song</li>
-                    </ol>
-                </div><!-- /.col -->
+                    <h1 class="m-0" style="font-weight: 800; font-size: 2.2rem; letter-spacing: -0.04em; color: #1c1c1e;">Create New Song</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb" style="background: transparent; padding: 0; margin: 8px 0 20px 8px;">
+                            <li class="breadcrumb-item"><a href="{{url('/')}}" style="color: #007aff;">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page" style="color: #8e8e93;">Create New Song</li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
@@ -33,16 +35,16 @@
                             @csrf
                             <div class="card-body" style="padding: 0;">
                                 <!-- Top Info Section -->
-                                <div style="background: #ffffff; border-radius: 14px; padding: 16px 20px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.04);">
+                                <div style="background: #ffffff; border-radius: 18px; padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.01);">
                                     <div class="form-group" style="margin-bottom: 20px;">
-                                        <label style="font-weight: 600; color: #1c1c1e; margin-bottom: 8px; display: block; font-size: 0.95rem;">Song Title</label>
-                                        <input type="text" name="song_title" class="form-control ios-input" id="song-title" placeholder="Enter Song Title" style="font-size: 1.05rem; padding: 14px 16px; background: #f9f9f9; border: 1px solid #f2f2f7;">
+                                        <label style="font-weight: 600; color: #8e8e93; margin-bottom: 8px; display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; padding-left: 4px;">Song Title</label>
+                                        <input type="text" name="song_title" class="form-control ios-input" id="song-title" placeholder="Enter Song Title" style="font-size: 1.1rem; padding: 16px; background: #f9f9f9; border: 1px solid #f2f2f7; border-radius: 14px; font-weight: 500;">
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group" style="margin-bottom: 20px;">
-                                                <label style="font-weight: 600; color: #1c1c1e; margin-bottom: 8px; display: block; font-size: 0.95rem;">Song Category</label>
+                                                <label style="font-weight: 600; color: #8e8e93; margin-bottom: 8px; display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; padding-left: 4px;">Song Category</label>
                                                 <select class="form-control select2" multiple="multiple" name="category[]" id="category" data-placeholder="Select Category" style="width: 100%;">
                                                     <option value="1">Pure Praise</option>
                                                     <option value="2">Praise</option>
@@ -54,7 +56,7 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group" style="margin-bottom: 0;">
-                                                <label style="font-weight: 600; color: #1c1c1e; margin-bottom: 8px; display: block; font-size: 0.95rem;">Language</label>
+                                                <label style="font-weight: 600; color: #8e8e93; margin-bottom: 8px; display: block; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; padding-left: 4px;">Language</label>
                                                 <select class="form-control select2" name="language" id="language" data-placeholder="Select Language" style="width: 100%;">
                                                     <option selected="selected" disabled value="">Select Language</option>
                                                     <option value="1">Hindi</option>
@@ -67,19 +69,19 @@
                                 </div>
 
                                 <!-- Paragraphs Section -->
-                                <div style="background: #ffffff; border-radius: 14px; padding: 16px 20px 20px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.04);">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                                        <label style="font-weight: 600; color: #1c1c1e; margin: 0; font-size: 1.1rem;">Song Paragraphs</label>
+                                <div style="background: #ffffff; border-radius: 18px; padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.01);">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                        <label style="font-weight: 700; color: #1c1c1e; margin: 0; font-size: 1.2rem; letter-spacing: -0.02em;">Song Paragraphs</label>
                                     </div>
                                     
                                     <div id="songParaSection">
-                                        <div class="form-group para-container position-relative" style="margin-bottom: 16px;">
-                                            <textarea class="form-control ios-input song_para" rows="4" name="song_para[0]" style="background: #f9f9f9; border: 1px solid #f2f2f7; border-radius: 14px; padding: 16px; padding-right: 48px; font-size: 1.05rem; line-height: 1.5; resize: vertical; width: 100%; box-sizing: border-box;" placeholder="Enter paragraph text..."></textarea>
+                                        <div class="form-group para-container position-relative" style="margin-bottom: 20px;">
+                                            <textarea class="form-control ios-input song_para" rows="4" name="song_para[0]" style="background: #f9f9f9; border: 1px solid #f2f2f7; border-radius: 16px; padding: 18px; font-size: 1.1rem; line-height: 1.6; resize: vertical; width: 100%; box-sizing: border-box; font-weight: 400; color: #1c1c1e;" placeholder="Enter paragraph text..."></textarea>
                                         </div>
                                     </div>
 
-                                    <button id="add_para" type="button" style="width: 100%; background: #e0f0ff; color: #007aff; border: none; border-radius: 12px; padding: 14px; font-weight: 600; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: background 0.2s;">
-                                        <i class="fas fa-plus-circle" style="font-size: 1.2rem;"></i> Add Paragraph
+                                    <button id="add_para" type="button" style="width: 100%; background: #f2f2f7; color: #007aff; border: none; border-radius: 14px; padding: 16px; font-weight: 600; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: all 0.2s; box-shadow: inset 0 0 0 1px rgba(0,122,255,0.1);">
+                                        <i class="fas fa-plus-circle" style="font-size: 1.3rem;"></i> Add Paragraph
                                     </button>
                                 </div>
                             </div>
@@ -142,9 +144,9 @@
         });
         $("#add_para").click(function () {
             $('#songParaSection').append(`
-                <div class="form-group para-container position-relative" style="margin-bottom: 16px;">
-                    <textarea class="form-control ios-input song_para" rows="4" name="song_para[${paraCounter}]" style="background: #f9f9f9; border: 1px solid #f2f2f7; border-radius: 14px; padding: 16px; padding-right: 48px; font-size: 1.05rem; line-height: 1.5; resize: vertical; width: 100%; box-sizing: border-box;" placeholder="Enter paragraph text..."></textarea>
-                    <button type="button" class="btn btn-sm btn-danger remove-para position-absolute" style="top: 12px; right: 12px; border-radius: 50%; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(255,59,48,0.3); border: none; background: #ff3b30;"><i class="fas fa-times" style="font-size: 0.9rem;"></i></button>
+                <div class="form-group para-container position-relative" style="margin-bottom: 20px;">
+                    <textarea class="form-control ios-input song_para" rows="4" name="song_para[${paraCounter}]" style="background: #f9f9f9; border: 1px solid #f2f2f7; border-radius: 16px; padding: 18px; font-size: 1.1rem; line-height: 1.6; resize: vertical; width: 100%; box-sizing: border-box; font-weight: 400; color: #1c1c1e;" placeholder="Enter paragraph text..."></textarea>
+                    <button type="button" class="btn btn-sm btn-danger remove-para position-absolute" style="top: -12px; right: -12px; z-index: 10; border-radius: 50%; width: 30px; height: 30px; padding: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(255,59,48,0.4); border: none; background: #ff3b30;"><i class="fas fa-times" style="font-size: 0.9rem;"></i></button>
                 </div>
             `);
             paraCounter++;
