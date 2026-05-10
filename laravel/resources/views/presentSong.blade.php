@@ -62,22 +62,12 @@
         text-align: center;
         z-index: 10;
         pointer-events: none; /* Let clicks pass through */
-        animation: fadeIn 0.5s ease-in-out;
+        animation: none;
     }
     
-    @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
-    }
-    
-    @keyframes slideUpFadeIn {
-        0% { opacity: 0; transform: translateY(30px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
 
-    .animate-slide {
-        animation: slideUpFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-    }
+    
+
 
     .songParaContent pre {
         font-family: 'Noto Sans Devanagari', 'Hind', 'Poppins', sans-serif;
@@ -323,11 +313,7 @@
         let styleAttr = customFontSize ? `style="font-size: ${customFontSize}px !important;"` : '';
         let $content = $('.songParaContent');
         
-        $content.removeClass('animate-slide');
-        void $content[0].offsetWidth; // trigger reflow to restart animation
-        
         $content.html('<pre class="margin-zero" ' + styleAttr + '>' + data[index] + '</pre>');
-        $content.addClass('animate-slide');
     }
 
     renderPara(paraCount);
