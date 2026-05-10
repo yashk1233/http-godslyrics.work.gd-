@@ -614,6 +614,14 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="{{url('search-songs')}}" class="nav-link">
+                <i class="nav-icon fas fa-search"></i>
+                <p>
+                  Search Songs
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="{{url('list-schedule-song')}}" class="nav-link">
                 <i class="nav-icon fas fa-list"></i>
                 <p>

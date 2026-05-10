@@ -26,6 +26,21 @@ class AdminController extends Controller
         return View('viewSongs');
     }
 
+    public function searchSongs(){
+        return View('searchSongs');
+    }
+
+    public function getSongsByTitle(Request $request){
+        $search = $request->input('search');
+        $songs = DB::table('song_master')
+                    ->when($search, function($query, $search) {
+                        return $query->where('song_title', 'LIKE', "%{$search}%");
+                    })
+                    ->orderBy('song_title', 'asc')
+                    ->get();
+        return response()->json(array('msg'=> $songs), 200);
+    }
+
     public function SaveNewSong(Request $request){
 
         $validated = Validator::make($request->all(), [
